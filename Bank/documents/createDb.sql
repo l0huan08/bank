@@ -53,6 +53,7 @@ CREATE  TABLE IF NOT EXISTS `bank`.`tbAccount` (
   `typeid` INT NOT NULL ,
   `acnumber` VARCHAR(45) NOT NULL ,
   `balance` DECIMAL(20,2) NOT NULL ,
+  `isactive` TINYINT(1) NOT NULL DEFAULT TRUE ,
   PRIMARY KEY (`aid`) ,
   UNIQUE INDEX `acnumber_UNIQUE` (`acnumber` ASC) ,
   INDEX `fk_tbAccount_tbClient_idx` (`cid` ASC) ,
@@ -129,42 +130,3 @@ USE `bank` ;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
-
-
-
-
-
-
-
-
-
---  Client
-INSERT INTO `bank`.`tbclient` (`fname`, `lname`, `gender`, `birthday`, `tel`, `add1`, `add2`, `zip`, `email`, `username`, `pw`) VALUES ('Li', 'Huang', 'M', '1985-09-04', '505-224-0333', '2299 Brodhead Rd.', 'Bathlehem,PA', '40292', 'huangli@gmail.com', 'huangli', '1');
-INSERT INTO `bank`.`tbclient` (`fname`, `lname`, `gender`, `birthday`, `tel`, `add1`, `add2`, `zip`, `email`, `username`, `pw`) VALUES ('Ben', 'Millar', 'F', '1999-03-02', '511-222-3333', '1355 Main St.', 'New York.NY', '21003', 'ben@gmail.com', 'ben', '2');
-
-
-
--- admin
-INSERT INTO `bank`.`tbadmin` (`adminid`, `username`, `pw`) VALUES ('1', 'admin', '1');
-
--- account type
-INSERT INTO `bank`.`tbaccounttype` (`typeid`, `typename`) VALUES ('1', 'checking');
-INSERT INTO `bank`.`tbaccounttype` (`typeid`, `typename`) VALUES ('2', 'saving');
-
-
--- account
-INSERT INTO `bank`.`tbaccount` (`cid`, `typeid`, `acnumber`, `balance`) VALUES ('1', '1', '1001', '500');
-INSERT INTO `bank`.`tbaccount` (`cid`, `typeid`, `acnumber`, `balance`) VALUES ('1', '2', '1002', '200');
-INSERT INTO `bank`.`tbaccount` (`cid`, `typeid`, `acnumber`, `balance`) VALUES ('2', '1', '2001', '300');
-INSERT INTO `bank`.`tbaccount` (`cid`, `typeid`, `acnumber`, `balance`) VALUES ('2', '2', '2002', '800');
-
--- transfer type
-INSERT INTO `bank`.`tbtransactiontype` (`trtid`, `trtname`) VALUES ('1', 'deposit');
-INSERT INTO `bank`.`tbtransactiontype` (`trtid`, `trtname`) VALUES ('2', 'withdraw');
-INSERT INTO `bank`.`tbtransactiontype` (`trtid`, `trtname`) VALUES ('3', 'transfer');
-
--- transfer
-INSERT INTO `bank`.`tbtransaction` (`aid`, `trtype`, `amount`, `description`) VALUES ('2', '2', '30', 'withdraw 30 at ATM');
-INSERT INTO `bank`.`tbtransaction` (`aid`, `trtype`, `amount`,`description`) VALUES ('3', '1', '22', 'deposit 22 from check');
-INSERT INTO `bank`.`tbtransaction` (`aid`, `trtype`, `amount`,`description`) VALUES ('4', '3', '44','transfer 44  to 1002');
