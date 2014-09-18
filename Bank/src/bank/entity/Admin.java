@@ -1,5 +1,10 @@
 package bank.entity;
 
+/**
+ * Admin entity
+ * @author huang li
+ * 2014.9.18
+ */
 public class Admin {
 	private int adminId=0;
 	private String username=null;

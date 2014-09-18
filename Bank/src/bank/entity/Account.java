@@ -1,5 +1,10 @@
 package bank.entity;
 
+/**
+ * Account Entity
+ * @author huang li
+ * 2014.9.18
+ */
 public class Account {
 	private int accountId=0;
 	private int clientId=0;

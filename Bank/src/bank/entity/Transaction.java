@@ -2,11 +2,18 @@ package bank.entity;
 
 import java.util.Date;
 
+/**
+ * Transaction entity
+ * @author huang li
+ * 2014.9.18
+ */
 public class Transaction {
 	private int transactionId=0; //transaction id
 	private int accountId=0;
 	private Date transactionTime=null; //transaction time
 	private TransactionType transactionType=null; //transaction type id
+	private String description=null;
+	
 	
 	public int getTransactionId() {
 		return transactionId;
@@ -37,6 +44,12 @@ public class Transaction {
 	}
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	private double amount=0;
 	

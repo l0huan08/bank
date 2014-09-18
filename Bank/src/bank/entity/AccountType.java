@@ -1,5 +1,10 @@
 package bank.entity;
 
+/**
+ * AccountType entity
+ * @author huang li
+ * 2014.9.18
+ */
 public class AccountType {
 	private int typeId=0;
 	private String typeName=null;

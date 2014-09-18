@@ -2,6 +2,11 @@ package bank.entity;
 
 import java.util.Date;
 
+/**
+ * Client entity
+ * @author huang li
+ * 2014.9.18
+ */
 public class Client {
 	private int clientId=0;
 	private String firstName=null;
