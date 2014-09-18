@@ -12,12 +12,13 @@ public class Account {
 	}
 	
 	public Account(int accountId,int clientId,AccountType accountType,double balance,
-			String accountNumber){
+			String accountNumber, boolean isActive){
 		this.accountId= accountId;
 		this.clientId=clientId;
 		this.accountType=accountType;
 		this.balance=balance;
 		this.accountNumber=accountNumber;
+		this.isActive = isActive;
 	}
 	
 	
