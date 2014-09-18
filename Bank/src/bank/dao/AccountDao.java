@@ -16,6 +16,10 @@ public class AccountDao {
 	private DBConnector dbConnector = new DBConnector();
 	
 	public List<Account> getAccountsByClient(String username) {
+		if (username==null)
+			return null;
+		if (username.trim().isEmpty())
+			return null;
 		
 		Connection conn = dbConnector.getConnection();
 		if (conn==null)
@@ -28,6 +32,7 @@ public class AccountDao {
 			//      and tbClient.username= 'username'
 			// TODO: need finish
 			//PreparedStatement st = conn
+			
 			return null;
 		}catch(Exception e){
 			
