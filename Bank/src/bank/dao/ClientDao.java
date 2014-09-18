@@ -85,4 +85,9 @@ public class ClientDao {
 		
 		return false;
 	}
+	
+	public boolean loginClient(String username, String password) {
+		return true;
+		//TODO: implemented need
+	}
 }
