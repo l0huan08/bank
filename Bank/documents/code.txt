@@ -4,14 +4,14 @@ webapps/root/bank
 
 Login
   login.jsp  ( ./src )
-  loginServelet.java ( .class   ./build/classes )
+  loginServlet.java ( .class   ./build/classes )
      只做跳转页面功能。 调用ClientDAO，
   dao/ClientDao.java(操作数据库Client表）
   entity/Client.java (实体类)
   
 RegisterClient
   register.jsp
-  registerServelet.java
+  registerServlet.java
   ClientDao.java
      new Client，设为前台页面中文本框中的数据
      bool registerClient(Client)
@@ -32,10 +32,10 @@ RegisterClient
   clientMain.jsp
     ViewMyProfile -- 超链接 到 3.1
 	Reset Password -- 超链接 到3.2
-	View Account -- <a href="clientServelet">View Accounts</a>
+	View Account -- <a href="clientServlet">View Accounts</a>
 	Deposit -- 超链接到 3.4 Deposit Check 
 	
-  clientServelet.java
+  clientServlet.java
     doGet()方法里 
 	  调用AccountDao.java
 	    getAccountsByClient(clientUsername)
@@ -49,22 +49,22 @@ RegisterClient
 	
 3.1 Client information
   clientInfo.jsp
-  clientInfoServelet.java
+  clientInfoServlet.java
   *ViewProfile
   doGet()
    clientDao.java
    Client c=  getClient(username) --username来自session
-   前台这些属性是标签，servelet设置这些标签的值
+   前台这些属性是标签，servlet设置这些标签的值
   
   EditProfile --超链接到3.2
    
 3.2 Edit Client information
   editClientInfo.jsp
-  editClientInfoServelet.java
+  editClientInfoServlet.java
    doGet()
     clientDao.getClient方法获取所有ClientInfo
 	填充到前台文本框里
-  点了Confirm按钮后， Confirm超链接到本servelet
+  点了Confirm按钮后， Confirm超链接到本servlet
    doPost()
      获取前台填入的数据
      c= new Client(...)
@@ -73,7 +73,7 @@ RegisterClient
    
 3.3 Open New Account
   openAccount.jsp
-  openAccountServelet.java
+  openAccountServlet.java
    doPost
      accountType=获取前台选了checking还是saving类型
 	 AccountDao.java
@@ -85,7 +85,7 @@ RegisterClient
 	  
 3.4 Deposit check
   depositCheck.jsp
-  depositCheckServelet.java
+  depositCheckServlet.java
    doGet()
    获取账户信息（下拉列表： account number(s)）
    
@@ -101,7 +101,7 @@ RegisterClient
 		
 3.5 
   accountDetail.jsp
-  accountDetailServelet.java
+  accountDetailServlet.java
 	doGet()
 	Display current account info.
 	AccountDao.java
@@ -113,7 +113,7 @@ RegisterClient
 	
 3.5.1
   makeTransfer.jsp
-  makeTransferServelet.java
+  makeTransferServlet.java
     makeTransfer(String fromAccountNumber, String toAccountNumber, doulbe amount)
 	AccountDao.java
 		checkAccountExist(String accountNumber) -- 是否存在该账号
@@ -127,7 +127,7 @@ RegisterClient
 	
 3.5.2
 	viewStatement.jsp
-	viewStatementServelet.java
+	viewStatementServlet.java
 		TransactionDao.java
 			getTransactionRecords(String accountNumber, date fromDate, date endDate)		
 				return List<Transaction> from D.B.
@@ -136,20 +136,20 @@ RegisterClient
 			
 4 
 	adminMain.jsp
-	adminMainServelet.java
+	adminMainServlet.java
 		doGet()
 		searchClient(String name)
 			if(name == null)
 				return List<table_Of_All_Clients>;
 			else return List<Client> from D.B.
-	adminMainViewClientServelet.java
+	adminMainViewClientServlet.java
 		doGet()
 		view(String userName)
 			-- 传入参数userNmae 并跳转到4.1
 			
 4.1
 	adminClientInfo.jsp
-	adminClientInfoServelet.java
+	adminClientInfoServlet.java
 		deleteClient(String userName, int cid)  // btn
 			TransactionDao.java
 				delete(aid??????)
