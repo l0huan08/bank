@@ -6,6 +6,19 @@ public class Account {
 	private AccountType accountType=null;
 	private double balance=0;
 	private String accountNumber=null;
+	private boolean isActive=true;
+
+	public Account(){
+	}
+	
+	public Account(int accountId,int clientId,AccountType accountType,double balance,
+			String accountNumber){
+		this.accountId= accountId;
+		this.clientId=clientId;
+		this.accountType=accountType;
+		this.balance=balance;
+		this.accountNumber=accountNumber;
+	}
 	
 	
 	public int getClientId() {
@@ -37,21 +50,18 @@ public class Account {
 	}
 	
 	
-	public Account(){
-	}
-	
-	public Account(int accountId,int clientId,AccountType accountType,double balance,
-			String accountNumber){
-		this.accountId= accountId;
-		this.clientId=clientId;
-		this.accountType=accountType;
-		this.balance=balance;
-		this.accountNumber=accountNumber;
-	}
 	public AccountType getAccountType() {
 		return accountType;
 	}
 	public void setAccountType(AccountType accountType) {
 		this.accountType = accountType;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 }
