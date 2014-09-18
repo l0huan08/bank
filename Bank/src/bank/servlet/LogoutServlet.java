@@ -1,12 +1,16 @@
 package bank.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+@WebServlet(description = "LogoutServlet", urlPatterns = { "/LogoutServlet" })
 public class LogoutServlet extends HttpServlet {
 
 	/**
@@ -14,17 +18,24 @@ public class LogoutServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
+	public LogoutServlet() {
+		super();
+	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		PrintWriter out = response.getWriter();
 		String username = (String)session.getAttribute("");
 		if(username != null){
 			session.removeAttribute("");
-			response.sendRedirect("");
+			out.print("<head><title>Loggging out...</title></head>");
+			out.print("<script>alert('You have been logged out.')</script>");
+			response.addHeader("REFRESH", "0.1;URL=login.jsp");
 		}
 	}
 	
-	public void doPost(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
 	}

@@ -4,9 +4,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Open new account</title>
 </head>
 <body>
-
+ 	<h2>Open new account</h2>
+ 	<p>Please select the account type:</p>
+ 	<form action="OpenAccountServlet" method="post">
+ 		<input type="radio" id="accountType" value="1" name="accountType" checked="checked" />Checking
+ 		<input type="radio" id="accountType" value="2" name="accountType" />Saving
+ 		<p><input type="submit" value="Open" /></p>
+ 	</form>
+ 	<a href="LogoutServlet">Sign off</a>
 </body>
 </html>
