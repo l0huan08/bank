@@ -1,0 +1,27 @@
+User:
+1. Open Account.
+Login Interface: Register --> Register Interface: input username, password, press "add" --> successful register --> enter Customer Info Interface: input personal info, press "update" --> goto Customer Main Interface: "new account" --> goto New Account Interface: select account type, "add". --> return to Customer Main Interface.
+
+2. Deposit Money.
+Login Interface: input username, password, "login" --> Customer Main Interface: "deposit check"  --> Deposit Check Interface: choose account number , enter amount, upload check picture, "deposit". --> Customer Main Interface.
+
+3. Transfer Money.
+Login Interface: input username, password, "login" --> Customer Main Interface: choose account --> Account Main Interface:"transfer" --> ???
+
+4. View & edit customer information.
+Login Interface: input username, password, "login" --> Customer Main Interface: view profile --> Customer Info Interface: view & edit customer information. --> Customer Main Interface.
+5. View account information.
+Login Interface: input username, password, "login" --> Customer Main Interface: choose account --> Account Info Interface: view balance, "transaction history"--> Transaction History Interface: view history, generate and export .xls reports --> Account Info Interface.
+
+------------------------------------------------------------------------------
+Administrator:
+1. Display customers' information.
+Login Interface: input username, password, "login" --> Admin Main Interface: display all customers' list, "view" --> Customer Info(admin) Interface: view selected customer's profile and accounts information.
+
+2. Customer Management.(reset customer password and delete customer)
+Login Interface: input username, password, "login" --> Admin Main Interface: display all customers' list, "view" --> Customer Info(admin) Interface: view selected customer's profile: "reset password" --> show reset success dialog --> Customer Info(admin) Interface.
+
+3. Frozen/Active account
+Login Interface: input username, password, "login" --> Admin Main Interface: display all customers' list, "view" --> Customer Info(admin) Interface: view accounts list: select an account: "frozen/active" --> Show frozen/active success dialog .
+
+

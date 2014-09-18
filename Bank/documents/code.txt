@@ -1,0 +1,187 @@
+root folder:
+webapps/root/bank
+
+
+Login
+  login.jsp  ( ./src )
+  loginServelet.java ( .class   ./build/classes )
+     只做跳转页面功能。 调用ClientDAO，
+  dao/ClientDao.java(操作数据库Client表）
+  entity/Client.java (实体类)
+  
+RegisterClient
+  register.jsp
+  registerServelet.java
+  ClientDao.java
+     new Client，设为前台页面中文本框中的数据
+     bool registerClient(Client)
+	   私有方法检查是否有重复用户
+	   新建Client行，存入数据库tbCient表
+  if (success)
+  {
+    out.println("alert(\"Success registered\")");
+	res.sendredirect("clientMain.jsp");
+  }  else
+  {
+   弹出username已被使用对话框
+  }
+   
+  Client.java
+
+3.Client Main Interface  
+  clientMain.jsp
+    ViewMyProfile -- 超链接 到 3.1
+	Reset Password -- 超链接 到3.2
+	View Account -- <a href="clientServelet">View Accounts</a>
+	Deposit -- 超链接到 3.4 Deposit Check 
+	
+  clientServelet.java
+    doGet()方法里 
+	  调用AccountDao.java
+	    getAccountsByClient(clientUsername)
+      返回 accounts = List<Account>
+	  Account.java 实体类
+	if (accounts.size()>0)
+    { 
+	  str =  生成accounts列表的html文字
+      out.println(str);
+    }    
+	
+3.1 Client information
+  clientInfo.jsp
+  clientInfoServelet.java
+  *ViewProfile
+  doGet()
+   clientDao.java
+   Client c=  getClient(username) --username来自session
+   前台这些属性是标签，servelet设置这些标签的值
+  
+  EditProfile --超链接到3.2
+   
+3.2 Edit Client information
+  editClientInfo.jsp
+  editClientInfoServelet.java
+   doGet()
+    clientDao.getClient方法获取所有ClientInfo
+	填充到前台文本框里
+  点了Confirm按钮后， Confirm超链接到本servelet
+   doPost()
+     获取前台填入的数据
+     c= new Client(...)
+	 clientDao.updateClientProfile(username, c) 
+	 成功后返回到3.1   res.sendredirect("clientInfo.jsp");
+   
+3.3 Open New Account
+  openAccount.jsp
+  openAccountServelet.java
+   doPost
+     accountType=获取前台选了checking还是saving类型
+	 AccountDao.java
+	  Account a = openAccount(username, int accountTypeId)
+	      内部随机生成accountNumber  
+    如果(a!=null)
+	  前台弹出成功对话框
+	  跳转到3.clientInfo.jsp
+	  
+3.4 Deposit check
+  depositCheck.jsp
+  depositCheckServelet.java
+   doGet()
+   获取账户信息（下拉列表： account number(s)）
+   
+   deposit(String accountNumber, int amount) -- 统一执行下列两个方法（AccountDao.deposit(), TransactionDao.addTransaction()）
+   AccountDao.java
+	deposit(String accountNumber, int amount)
+		向后台传入Deposit amount
+		提示成功（显示存入金额），跳转至3.5
+   TransactionDao.java
+	addTransaction(String accountNumber, int trsactionType, double amount, String description)	
+	
+	
+		
+3.5 
+  accountDetail.jsp
+  accountDetailServelet.java
+	doGet()
+	Display current account info.
+	AccountDao.java
+		getAccount(session.accountNumber)
+			Display all info.
+	makeTransfer(超链接) -- 跳转至3.5.1
+	viewStatement(超链接) -- 跳转至3.5.2
+
+	
+3.5.1
+  makeTransfer.jsp
+  makeTransferServelet.java
+    makeTransfer(String fromAccountNumber, String toAccountNumber, doulbe amount)
+	AccountDao.java
+		checkAccountExist(String accountNumber) -- 是否存在该账号
+		makeTransfer(String fromAccountNumber, String toAccountNumber, doulbe amount)
+		向Account talbe传入专找的值
+	TransactionDao.java
+	addTransaction(String accountNumber, int trsactionType, double amount, String description)	
+		向Transaction table传入两条操作记录（输出账户扣钱，存入账户到账）
+	btnCancel -- 跳转到3.5
+	
+	
+3.5.2
+	viewStatement.jsp
+	viewStatementServelet.java
+		TransactionDao.java
+			getTransactionRecords(String accountNumber, date fromDate, date endDate)		
+				return List<Transaction> from D.B.
+		exportReport(List<Transaction>, String filePath)
+			export a excel file
+			
+4 
+	adminMain.jsp
+	adminMainServelet.java
+		doGet()
+		searchClient(String name)
+			if(name == null)
+				return List<table_Of_All_Clients>;
+			else return List<Client> from D.B.
+	adminMainViewClientServelet.java
+		doGet()
+		view(String userName)
+			-- 传入参数userNmae 并跳转到4.1
+			
+4.1
+	adminClientInfo.jsp
+	adminClientInfoServelet.java
+		deleteClient(String userName, int cid)  // btn
+			TransactionDao.java
+				delete(aid??????)
+					remove(from table Transaction where username = 'userName');
+			AccountDao.java
+				delete(cid)
+					remove(from table Account where cid = 'cid');
+			ClientDao.java
+				delete(userName)
+					remove(from table Client where username = 'userName');
+	clientDao.java
+		resetPassword(String userName) // btn
+			alert("成功重置");
+			Table.Client(String userName).pw.setDefault(); //重置思密达
+		
+		
+	AccountDao.java
+		frozen(String accountNumber)
+			editable = false;
+		activeAccount(String accountNumber)
+			editable = true;
+		deleteAccount(String accountNumber)
+			remove(from table Account where aid = 'accountNumber')
+		
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

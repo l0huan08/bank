@@ -1,0 +1,184 @@
+﻿==============================================================
+JSP and Java Class files and their relations
+==============================================================
+Root folder:  webapps/root/bank
+
+1. Login
+  login.jsp  ( ./src )
+  loginServelet.java ( .class   ./build/classes )
+     Only jump to other pages. uses ClientDAO，
+  dao/ClientDao.java( Operate DB's ClientTable )
+  entity/Client.java (Entity class)
+  
+2. RegisterClient
+  register.jsp
+  registerServelet.java
+  ClientDao.java
+     new Client，Set its attributes from front page's textboxes
+     bool registerClient(Client)
+	   check is this client already exist
+	   insert a new Client row, save to tbCient table.
+  if (success)
+  {
+    out.println("alert(\"Success registered\")");
+	res.sendredirect("clientMain.jsp");
+  }  else
+  {
+    show dialog(username has been exisits)
+  }
+   
+  Client.java
+
+3.Client Main Interface  
+  clientMain.jsp
+    ViewMyProfile -- hypterlink to 3.1:View Client Information
+	Reset Password -- hypterlink to 3.2:Edit Client Information
+	View Account -- <a href="clientServelet">View Accounts</a>
+	Deposit -- hypterlink to 3.4 Deposit Check 
+	
+  clientServelet.java
+    doGet(){
+	  AccountDao.java
+	    getAccountsByClient(clientUsername)
+              return accounts = List<Account>
+	  Account.java (Entity class)
+	if (accounts.size()>0)
+    	{ 
+	  str = ...// Generate accounts table (html)
+      	  out.println(str);
+    	}   
+   }	 
+	
+3.1 Client information
+  clientInfo.jsp
+  clientInfoServelet.java
+  
+  ViewProfile
+  doGet()
+   clientDao.java
+   Client c=  getClient(username) --username from session
+      //In front page these attributes are Tags, servelet set the values of the tags.
+  
+  EditProfile -- url to 3.2 Edit Customer Info
+   
+3.2 Edit Client Information
+  editClientInfo.jsp
+  editClientInfoServelet.java
+   doGet()
+    clientDao.getClient(username) get Client Info
+	fill to front page's textboxes
+  Click "Confirm" button, Confirm link to editClientInfoServelet.java
+   doPost()
+     Get Client's attributes from front page
+     c= new Client(...)
+	 clientDao.updateClientProfile(username, c) 
+	 if success 
+            redirect to 3.1 View Customer Info:  res.sendredirect("clientInfo.jsp");
+   
+3.3 Open New Account
+  openAccount.jsp
+  openAccountServelet.java
+   doPost
+     accountType= get account type from front page: checking / saving
+	 AccountDao.java
+	  Account a = openAccount(username, int accountTypeId)
+	      Generate a Random accountNumber  
+     if(a!=null)
+	  MessageBox("Success")
+	  jump to   3.clientInfo.jsp
+	  
+3.4 Deposit check
+  depositCheck.jsp
+  depositCheckServelet.java
+   doGet()
+     get accounts list (dropdown list: account number(s) )
+   
+   deposit(String accountNumber, int amount)      AccountDao.deposit(), 
+      TransactionDao.addTransaction()
+      put deposit amount to backend.
+      Show messagebox (Success,Deposit amount), jump to 3.5 Account Infomation
+
+   AccountDao.java
+	deposit(String accountNumber, int amount)
+   TransactionDao.java
+	addTransaction(String accountNumber, int trsactionType, double amount, String description)	
+	
+	
+		
+3.5 Account Infomation
+  accountDetail.jsp
+  accountDetailServelet.java
+	doGet()
+	Display current account info.
+	AccountDao.java
+		getAccount(session.accountNumber)
+			Display all info.
+	makeTransfer(URL) -- jump to 3.5.1 Transfer Money
+	viewStatement(URL) -- jump 3.5.2 View Statement
+
+	
+3.5.1 Transfer Money
+  makeTransfer.jsp
+  makeTransferServelet.java
+    makeTransfer(String fromAccountNumber, String toAccountNumber, doulbe amount)
+	AccountDao.java
+		checkAccountExist(String accountNumber) -- check whether this account exist?
+		makeTransfer(String fromAccountNumber, String toAccountNumber, doulbe amount)
+		  update tbAccount table, change balance - transfer money amount
+	TransactionDao.java
+	addTransaction(String accountNumber, int trsactionType, double amount, String description)	
+		insert 2 records to Transaction table ( fromAccount - amount, toAccount + amount)
+	btnCancel -- jump to 3.5 Account Infomation
+	
+	
+3.5.2  View Statement
+	viewStatement.jsp
+	viewStatementServelet.java
+		TransactionDao.java
+			getTransactionRecords(String accountNumber, date fromDate, date endDate)	 
+	
+				return List<Transaction> from D.B.
+		exportReport(List<Transaction>, String filePath)
+			export a excel file
+
+			
+4 Admin Main
+	adminMain.jsp
+	adminMainServelet.java
+		doGet()
+		searchClient(String name)
+			if(name == null)
+				return List<table_Of_All_Clients>;
+			else return List<Client> from D.B.
+	adminMainViewClientServelet.java
+		doGet()
+		view(String userName)
+			-- get userName from front page, jump to 4.1 with the arg userName
+			
+4.1 Client Info (Admin)
+	adminClientInfo.jsp
+	adminClientInfoServelet.java
+		deleteClient(String userName)  // btn
+			TransactionDao.java
+				deleteByClient(userName)
+					remove(from table Transaction where username = 'userName');
+			AccountDao.java
+				deleteByClient(userName)
+					remove(from table Account where username = 'userName');
+			ClientDao.java
+				delete(userName)
+					remove(from table Client where username = 'userName');
+	clientDao.java
+		resetPassword(String userName) // btn
+			alert("reset succes");
+			Table tbClient.pw = default where username="username"; //reset password
+		
+		
+	AccountDao.java
+		frozen(String accountNumber)
+			editable = false;
+		activeAccount(String accountNumber)
+			editable = true;
+		deleteAccount(String accountNumber)
+			remove(from table Account where aid = 'accountNumber')
+		
