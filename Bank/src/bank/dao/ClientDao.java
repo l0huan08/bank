@@ -207,7 +207,7 @@ public class ClientDao {
 			st = conn.prepareStatement(
 					"update tbClient "
 					+ " set fname=?, mname=?, lname=? ,gender=?,birthday=?,tel=?,"
-					+ "add1=?,add2=?,zip=?,email=?,pw=?) "
+					+ "add1=?,add2=?,zip=?,email=?,pw=? "
 					+ "where username=? ");
 			st.setString(1, newClient.getFirstName());
 			st.setString(2, newClient.getMiddleName());
@@ -222,7 +222,7 @@ public class ClientDao {
 			st.setString(10, newClient.getEmail());
 			
 			st.setString(11, newClient.getPassword());
-			st.setString(12, newClient.getPassword());
+			st.setString(12, newClient.getUsername());
 			
 			int nInsertedRow = st.executeUpdate(); //the number of rows inserted
 			return (nInsertedRow>0); //means a row inserted
@@ -353,6 +353,7 @@ public class ClientDao {
 	
 	/**
 	 * Delete client from tbClient
+	 * delete Only when this client has no money in any account. 
 	 * @param username
 	 * @return if successful deleted, return true.
 	 */
@@ -368,10 +369,21 @@ public class ClientDao {
 
 			Statement st;
 			String sql;
-
-			// ---------------- Batch Transaction 
+			ResultSet rs;
 			
+			// Search is there any account of client with balance ?
 			st = conn.createStatement();
+			sql = "select tbAccount.* from tbAccount,tbClient where "
+					+ "   tbAcount.cid=tbClient.cid"
+					+ "   and tbClient.username='"+ username +"' )"
+					+ "   and balance <> 0";
+			rs = st.executeQuery(sql);
+			// if exist non-emply account, then REFUSE to delete client
+			if (rs.next()) {
+				return false;
+			}
+			
+			// ---------------- Batch Transaction 
 			//remove(from table Transaction where username = 'userName');
 			sql = "delete from tbTransaction where aid IN "
 					+ "(select aid from tbAccount,tbClient where"
@@ -407,9 +419,6 @@ public class ClientDao {
 		}
 
 		return false;
-		
-		
-		
 	}
 	
 	
