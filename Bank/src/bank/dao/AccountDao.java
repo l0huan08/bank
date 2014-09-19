@@ -91,7 +91,80 @@ public class AccountDao {
 	 * @return this new account if successful open. else return null.
 	 */
 	public Account openAccount(String username, int accountTypeId){
+		if (!DaoUtility.isUsernameValid(username))
+			return null;
+
+		Connection conn = null;
+
+		try {
+			PreparedStatement st;
+			ResultSet rs;
+			int cid=0; //clientId
+			
+			conn=dbConnector.getConnection();
+			if (conn==null)
+				return null;
+			
+			// find the cid by username
+			st = conn.prepareStatement("select cid from tbClient"
+					+ " where username=? ");
+			st.setString(1, username);
+			rs = st.executeQuery();
+			if (rs.next()) {
+				cid = rs.getInt("cid");
+			} else {
+				return null; // not found this client, return null object
+			}
+			
+			// generate accountNumber
+			String acNumber = genNewAccountNumber(cid);
+			
+			// insert the account into tbAccount
+			st = conn.prepareStatement("insert into tbAccount(cid,typeid,acnumber)"
+					+ " values(?,?,?)");
+			st.setInt(1, cid);
+			st.setInt(2, accountTypeId);
+			st.setString(3, acNumber);
+			int rowInserted = st.executeUpdate(); //
+			if (rowInserted<=0) { 
+				return null; //inserted failed
+			}
+			
+			// get the inserted account object
+			st = conn.prepareStatement("select tbAccount.*, typename  from tbAccount,tbAccountType"
+					+ " where acnumber=? and tbAccountType.typeid=tbAccount.typeid ");
+			st.setString(1, acNumber);
+			rs = st.executeQuery();
+			if (rs.next()) {
+				int aid = rs.getInt("aid");
+				String acTypeName = rs.getString("typename");
+				double balance = rs.getDouble("balance");
+				boolean isactive = rs.getBoolean("isactive");
+				AccountType acType = new AccountType(accountTypeId,acTypeName);
+				
+				Account account=new Account(aid,cid,acType,balance,acNumber,isactive);
+				return account; //the new account
+			} else {
+				return null;// not found account
+			}
+		} catch (Exception e){
+			
+		} finally {
+			
+		}
+			
 		return null;
 		//TODO: need implements
+	}
+	
+	/**
+	 * Generate a new Account Number.
+	 * @param username Client's username
+	 * @return the new account number = clientId*1000+random(900)
+	 */
+	private String genNewAccountNumber(int clientId) {
+		// keep 4 digits
+		int acNumber = clientId*1000+(int)(Math.random()*900);
+		return String.valueOf(acNumber);
 	}
 }
