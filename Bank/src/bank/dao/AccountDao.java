@@ -170,6 +170,8 @@ public class AccountDao {
 	
 	/**
 	 * Deposit money into a account with amount of money.
+	 * 1. Modify the balance of the account in tbAccount
+	 * 2. Add a new transaction record into tbTransaction
 	 * @param accountNumber
 	 * @param amount
 	 * @return if success deposited, return true.
