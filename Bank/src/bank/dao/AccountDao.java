@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class AccountDao {
 	private DBConnector dbConnector = new DBConnector();
 	/** defualt balance in new account */
 	private final double NEW_ACCOUNT_BALANCE=0;
+	private final int DEPOSIT_TRANSACTION_TYPE_ID=1;
 	
 	/**
 	 * Get all account of a client
@@ -162,6 +166,95 @@ public class AccountDao {
 		}
 			
 		return null;
+	}
+	
+	/**
+	 * Deposit money into a account with amount of money.
+	 * 1. Modify the balance of the account in tbAccount
+	 * 2. Add a new transaction record into tbTransaction
+	 * @param accountNumber
+	 * @param amount
+	 * @return if success deposited, return true.
+	 */
+	public boolean deposit(String accountNumber, double amount) {
+		if (!DaoUtility.isAccountNumberValid(accountNumber))
+			return false;
+		
+		Connection conn = null;
+		
+		try {
+			Statement st;
+			ResultSet rs;
+			String sql;
+			
+			conn=dbConnector.getConnection();
+			if (conn==null)
+				return false;
+			
+			// atomic operation
+			st = conn.createStatement();
+			
+			// get the aid and old balance
+			int aid=0;
+			double oldbalance=0;
+			sql = String.format("select * from tbAccount where acccountNumber='%s' ",
+					accountNumber);
+					
+			rs = st.executeQuery(sql);
+			if (rs.next()) {
+				aid = rs.getInt("aid");
+				oldbalance =  rs.getDouble("balance");
+			} else {
+				return false;
+			}
+			
+			// ac.balance += amount.
+			// update tbAccount set balance='new balance' where acnumber='acnumber'
+			double newBalance = oldbalance+amount;
+			sql = String.format(
+					"update tbAccount set balance=%lf where acnumber='%s' ",
+					newBalance, accountNumber);
+			st.addBatch(sql);
+			
+			// insert a transaction record
+			// insert into tbTransaction(aid,trtype,amount,description) 
+			//      values( select aid from tbAccount where acnumber='acnumber',
+			//			DEPOSIT_TRANSACTION_TYPE_ID,
+			//			amount, 'deposit 123.4 dollars on 2014-09-19')
+			//
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date date = new java.util.Date();
+			String currentDate = dateFormat.format(date); //2014-08-06
+			
+			sql = String.format("insert into tbTransaction(aid,trtype,amount,description) "+
+					"      values( %d, "+
+					"			%d, "+
+					"			%lf, 'deposit %lf dollars on %s' ) ",
+				aid, DEPOSIT_TRANSACTION_TYPE_ID, amount,
+				amount, currentDate);
+			
+			st.addBatch(sql);
+			
+			// Execute transaction
+			int[] nRes = st.executeBatch();
+			if (nRes[1] >0 )
+				return true;
+			else
+				return false;
+			
+		} catch (Exception e){
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if (conn!=null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+			
+		return false;
 	}
 	
 	/**
