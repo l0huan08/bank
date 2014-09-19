@@ -190,7 +190,7 @@ public class ClientDao {
 	 * @param newClientProfile  including client's new profile
 	 * @return true if success updated.
 	 */
-	boolean updateClientProfile(String username, Client newClient) {
+	public boolean updateClientProfile(String username, Client newClient) {
 		if (!DaoUtility.isUsernameValid(username))
 			return false;
 
