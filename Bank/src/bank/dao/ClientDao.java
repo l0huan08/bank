@@ -207,7 +207,7 @@ public class ClientDao {
 			st = conn.prepareStatement(
 					"update tbClient "
 					+ " set fname=?, mname=?, lname=? ,gender=?,birthday=?,tel=?,"
-					+ "add1=?,add2=?,zip=?,email=?,pw=?) "
+					+ "add1=?,add2=?,zip=?,email=?,pw=? "
 					+ "where username=? ");
 			st.setString(1, newClient.getFirstName());
 			st.setString(2, newClient.getMiddleName());
