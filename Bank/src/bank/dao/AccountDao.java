@@ -30,13 +30,15 @@ public class AccountDao {
 		if (username.trim().isEmpty())
 			return null;
 		
-		Connection conn = dbConnector.getConnection();
-		if (conn==null)
-			return null;
+		Connection conn = null;
 		
 		try {
 			PreparedStatement st;
 			ResultSet rs;
+			
+			conn=dbConnector.getConnection();
+			if (conn==null)
+				return null;
 			
 			st = conn.prepareStatement(
 					"select tbAccount.*, trtname from tbAccount, tbClient, tbTransactionType "+ 
@@ -72,7 +74,8 @@ public class AccountDao {
 			e.printStackTrace();
 		}finally {
 			try {
-				conn.close();
+				if (conn!=null)
+					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

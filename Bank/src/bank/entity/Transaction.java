@@ -1,6 +1,6 @@
 package bank.entity;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Transaction {
 	private int transactionId=0; //transaction id

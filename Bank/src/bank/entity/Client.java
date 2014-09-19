@@ -1,8 +1,9 @@
 package bank.entity;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Client {
+	
 	private int clientId=0;
 	private String firstName=null;
 	private String middleName=null;
@@ -16,6 +17,31 @@ public class Client {
 	private String email=null;
 	private String username=null;
 	private String password=null;
+	
+	
+	public Client(){
+		
+	}
+	
+	public Client(int clientId, String firstName, String middleName,
+			String lastName, String gender, Date birthday, String tel,
+			String add1, String add2, String zip, String email,
+			String username, String password) {
+		this.clientId = clientId;
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.lastName = lastName;
+		this.gender = gender;
+		this.birthday = birthday;
+		this.tel = tel;
+		this.add1 = add1;
+		this.add2 = add2;
+		this.zip = zip;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+	}
+	
 	
 	public int getClientId() {
 		return clientId;
