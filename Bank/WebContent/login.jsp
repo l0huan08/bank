@@ -9,8 +9,8 @@
 <script>
 	$(document).ready(function(){
 		$('#LoginForm').submit(function(){
-			var username = $('#username').val();
-			var password = $('#password').val();
+			var username = $.trim($('#username').val());
+			var password = $.trim($('#password').val());
 			if(username == "") {
 				alert("Please enter username.");
 				$('#username').focus();
@@ -21,8 +21,7 @@
 				$('#password').focus()
 				return false;
 			}
-		}		
-		);
+		});
 	});
 </script>
 </head>

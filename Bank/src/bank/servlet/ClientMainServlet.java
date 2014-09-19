@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class ClientMainServlet
  */
-@WebServlet(description = "ClientMainServlet", urlPatterns = { "/clientMain.jsp" })
+@WebServlet(description = "ClientMainServlet", urlPatterns = { "/ClientMainServlet" })
 public class ClientMainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

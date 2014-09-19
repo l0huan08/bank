@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class DepositCheckServlet
  */
-@WebServlet(description = "DepositCheckServlet", urlPatterns = { "/depositCheck.jsp" })
+@WebServlet(description = "DepositCheckServlet", urlPatterns = { "/DepositCheckServlet" })
 public class DepositCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
