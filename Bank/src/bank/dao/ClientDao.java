@@ -325,7 +325,6 @@ public class ClientDao {
 				return false;
 			
 			PreparedStatement st;
-			ResultSet rs;
 			String sql;
 			
 			sql = "update tbClient set pw=? where username=?";
@@ -350,6 +349,67 @@ public class ClientDao {
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Delete client from tbClient
+	 * @param username
+	 * @return if successful deleted, return true.
+	 */
+	public boolean deleteClient(String username) {
+		if (!DaoUtility.isUsernameValid(username))
+			return false;
+
+		Connection conn = null;
+		try {
+			conn = dbConnector.getConnection();
+			if (conn == null) // cannot connect to DB
+				return false;
+
+			Statement st;
+			String sql;
+
+			// ---------------- Batch Transaction 
+			
+			st = conn.createStatement();
+			//remove(from table Transaction where username = 'userName');
+			sql = "delete from tbTransaction where aid IN "
+					+ "(select aid from tbAccount,tbClient where"
+					+ "   tbAcount.cid=tbClient.cid"
+					+ "   and tbClient.username='"+ username +"' )";
+			st.addBatch(sql);
+			
+			//remove(from table Account where cid = 'cid');
+			sql = "delete from tbAccount where cid= "
+					+ "(select cid from tbClient where "
+					+ "   username='" + username +"' )";
+			st.addBatch(sql);
+			
+			//remove(from table Client where username = 'userName');
+			sql = "delete from tbClient where "
+					+ "   username='" + username +"' ";
+			st.addBatch(sql);
+			
+			// ---------------- Execute batch
+			int[] nRs = st.executeBatch();
+			
+			return (nRs.length == 3); // 3 SQL statements executed.
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return false;
+		
+		
+		
 	}
 	
 	
