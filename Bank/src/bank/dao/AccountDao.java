@@ -18,6 +18,8 @@ import bank.entity.AccountType;
 public class AccountDao {
 	
 	private DBConnector dbConnector = new DBConnector();
+	/** defualt balance in new account */
+	private final double NEW_ACCOUNT_BALANCE=0;
 	
 	/**
 	 * Get all account of a client
@@ -120,11 +122,12 @@ public class AccountDao {
 			String acNumber = genNewAccountNumber(cid);
 			
 			// insert the account into tbAccount
-			st = conn.prepareStatement("insert into tbAccount(cid,typeid,acnumber)"
-					+ " values(?,?,?)");
+			st = conn.prepareStatement("insert into tbAccount(cid,typeid,acnumber,balance)"
+					+ " values(?,?,?,?)");
 			st.setInt(1, cid);
 			st.setInt(2, accountTypeId);
 			st.setString(3, acNumber);
+			st.setDouble(4, NEW_ACCOUNT_BALANCE); //default balance = 0
 			int rowInserted = st.executeUpdate(); //
 			if (rowInserted<=0) { 
 				return null; //inserted failed
