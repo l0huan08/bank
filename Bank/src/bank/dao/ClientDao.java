@@ -191,4 +191,63 @@ public class ClientDao {
 		return null;
 		
 	}
+	
+	
+	/**
+	 * Update Client's profile. 
+	 * Do not change cid and username
+	 * @param username Client username
+	 * @param newClientProfile  including client's new profile
+	 * @return true if success updated.
+	 */
+	boolean updateClientProfile(String username, Client newClient) {
+		if (!DaoUtility.isUsernameValid(username))
+			return false;
+
+		Connection conn=null;
+		try{
+			conn = dbConnector.getConnection();
+			if (conn==null) //cannot connect to DB
+				return false;
+			
+			PreparedStatement st;
+			
+			// update the client with username='username'.
+			// do not update cid and username
+			st = conn.prepareStatement(
+					"update tbClient "
+					+ " set fname=?, mname=?, lname=? ,gender=?,birthday=?,tel=?,"
+					+ "add1=?,add2=?,zip=?,email=?,pw=?) "
+					+ "where username=? ");
+			st.setString(1, newClient.getFirstName());
+			st.setString(2, newClient.getMiddleName());
+			st.setString(3, newClient.getLastName());
+			st.setString(4, newClient.getGender());
+			
+			st.setDate(5, newClient.getBirthday());
+			st.setString(6, newClient.getTel());
+			st.setString(7, newClient.getAdd1());
+			st.setString(8, newClient.getAdd2());
+			st.setString(9, newClient.getZip());
+			st.setString(10, newClient.getEmail());
+			
+			st.setString(11, newClient.getPassword());
+			st.setString(12, newClient.getPassword());
+			
+			int nInsertedRow = st.executeUpdate(); //the number of rows inserted
+			return (nInsertedRow>0); //means a row inserted
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			try {
+				if (conn!=null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return false;		
+	}
 }
