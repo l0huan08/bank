@@ -3,6 +3,8 @@ package bank.dao;
 import bank.entity.*;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -155,24 +157,7 @@ public class ClientDao {
 			// if exist, return the Client object
 			if (rs.next()){
 
-				int cid = rs.getInt("cid");
-				String fname = rs.getString("fname");
-				String mname = rs.getString("mname");
-				String lname = rs.getString("lname");
-				String gender = rs.getString("gender");
-				Date birthday = rs.getDate("birthday");
-				String tel = rs.getString("tel");
-				String add1 = rs.getString("add1");
-				String add2 = rs.getString("add2");
-				String zip = rs.getString("zip");
-				String email = rs.getString("email");
-				String usname = rs.getString("username");
-				String pw = rs.getString("pw");
-					
-				Client client = new Client(cid, fname, mname,
-						lname, gender, birthday, tel,
-						 add1,  add2,  zip,  email,
-						usname, pw);
+				Client client = getClientFromResultSet(rs);
 		
 				return client; //exist a client in the table
 			}
@@ -249,5 +234,92 @@ public class ClientDao {
 		}
 		
 		return false;		
+	}
+	
+	
+	/**
+	 * Search clients by username or first name or last name
+	 * @param usernameOrName  username or first name or last name.
+	 *   if usernameOrName=null or empty, then return all clients.
+	 * @return the client objects if exist
+	 */
+	public List<Client> searchClient(String usernameOrName) {
+		Connection conn=null;
+		try{
+			conn = dbConnector.getConnection();
+			if (conn==null) //cannot connect to DB
+				return null;
+			
+			Statement st;
+			ResultSet rs;
+			String sql;
+			
+			boolean searchAll = false;
+			if (usernameOrName==null )
+				searchAll=true;
+			
+			usernameOrName = usernameOrName.trim();
+			if (usernameOrName.isEmpty())
+				searchAll=true;
+			
+			if (searchAll) {
+				sql = "select * from tbClient";
+			} else {
+				sql = "select * from tbClient where "
+						+ " username LIKE '%"+usernameOrName+"%' "
+						+ " OR fname LIKE '%"+usernameOrName+"%' "
+						+ " OR lname LIKE '%"+usernameOrName+"%' ";
+			}
+			
+			// check does this client's username exist?
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			
+			List<Client> lst = new ArrayList<Client>();
+			// if exist, return the Client objects
+			while (rs.next()){
+				Client client = getClientFromResultSet(rs);
+				lst.add(client);
+			}
+			if (lst.size()<=0)
+				return null;
+			else
+				return lst;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			try {
+				if (conn!=null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return null;
+		
+	}
+
+	private Client getClientFromResultSet(ResultSet rs) throws SQLException {
+		int cid = rs.getInt("cid");
+		String fname = rs.getString("fname");
+		String mname = rs.getString("mname");
+		String lname = rs.getString("lname");
+		String gender = rs.getString("gender");
+		Date birthday = rs.getDate("birthday");
+		String tel = rs.getString("tel");
+		String add1 = rs.getString("add1");
+		String add2 = rs.getString("add2");
+		String zip = rs.getString("zip");
+		String email = rs.getString("email");
+		String usname = rs.getString("username");
+		String pw = rs.getString("pw");
+			
+		Client client = new Client(cid, fname, mname,
+				lname, gender, birthday, tel,
+				 add1,  add2,  zip,  email,
+				usname, pw);
+		return client;
 	}
 }
