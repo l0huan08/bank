@@ -31,9 +31,7 @@ public class AccountDao {
 	 * @return the list of accounts belong to this client
 	 */
 	public List<Account> getAccountsByClient(String username) {
-		if (username==null)
-			return null;
-		if (username.trim().isEmpty())
+		if (!DaoUtility.isUsernameValid(username))
 			return null;
 		
 		Connection conn = null;
@@ -172,6 +170,8 @@ public class AccountDao {
 	 * Deposit money into a account with amount of money.
 	 * 1. Modify the balance of the account in tbAccount
 	 * 2. Add a new transaction record into tbTransaction
+	 * 
+	 * If the account is Frozen(isactive=false), then cannot deposit.
 	 * @param accountNumber
 	 * @param amount
 	 * @return if success deposited, return true.
@@ -204,6 +204,12 @@ public class AccountDao {
 			if (rs.next()) {
 				aid = rs.getInt("aid");
 				oldbalance =  rs.getDouble("balance");
+				boolean isactive = rs.getBoolean("isactive");
+				
+				//If the account is Frozen(isactive=false), then cannot deposit.
+				if (!isactive) {
+					return false;
+				}
 			} else {
 				return false;
 			}
@@ -245,6 +251,66 @@ public class AccountDao {
 		} catch (Exception e){
 			e.printStackTrace();
 			
+		} finally {
+			try {
+				if (conn!=null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+			
+		return false;
+	}
+	
+	/**
+	 * Frozen an account
+	 * @param accountNumber
+	 * @return true if success
+	 */
+	public boolean frozenAccount(String accountNumber){
+		return setAccountActive(accountNumber,false);
+	}
+	
+	/**
+	 * Activate an (frozen) account
+	 * @param accountNumber
+	 * @return
+	 */
+	public boolean activateAccount(String accountNumber){
+		return setAccountActive(accountNumber,true);
+	}
+	
+	/**
+	 * 
+	 * @param accountNumber
+	 * @param isactive
+	 */
+	public boolean setAccountActive(String accountNumber, boolean isactive) {
+		if (!DaoUtility.isAccountNumberValid(accountNumber))
+			return false;
+		
+		Connection conn = null;
+
+		try {
+			PreparedStatement st;
+			
+			conn=dbConnector.getConnection();
+			if (conn==null)
+				return false;
+			
+			// find the account by accountNumber
+			st = conn.prepareStatement("update tbAccount set isactive=? "
+					+ " where acnumber=? ");
+			st.setBoolean(1, isactive);
+			st.setString(2, accountNumber);
+			int nRs = st.executeUpdate();
+			
+			if (nRs>0)
+				return true;
+			
+		} catch (Exception e){
+			e.printStackTrace();
 		} finally {
 			try {
 				if (conn!=null)
