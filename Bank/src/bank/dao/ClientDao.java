@@ -86,6 +86,12 @@ public class ClientDao {
 		return false;
 	}
 	
+	/**
+	 * Client Login
+	 * @param username
+	 * @param password
+	 * @return if username and password is correct, client can login. return true.
+	 */
 	public boolean loginClient(String username, String password) {
 		return true;
 		//TODO: implemented need
