@@ -83,4 +83,15 @@ public class AccountDao {
 		
 		return null;
 	}
+	
+	/**
+	 * Open a new account
+	 * @param username  new account's username
+	 * @param accountTypeId  type of the account
+	 * @return this new account if successful open. else return null.
+	 */
+	public Account openAccount(String username, int accountTypeId){
+		return null;
+		//TODO: need implements
+	}
 }
