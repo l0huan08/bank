@@ -186,7 +186,6 @@ public class AccountDao {
 			Statement st;
 			ResultSet rs;
 			String sql;
-			int cid=0; //clientId
 			
 			conn=dbConnector.getConnection();
 			if (conn==null)
@@ -225,7 +224,7 @@ public class AccountDao {
 			//
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			java.util.Date date = new java.util.Date();
-			String currentDate = dateFormat.format(date); //2014/08/06 15:59:48
+			String currentDate = dateFormat.format(date); //2014-08-06
 			
 			sql = String.format("insert into tbTransaction(aid,trtype,amount,description) "+
 					"      values( %d, "+
