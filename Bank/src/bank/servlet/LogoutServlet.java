@@ -26,7 +26,7 @@ public class LogoutServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		PrintWriter out = response.getWriter();
-		String username = (String)session.getAttribute("");
+		String username = (String)session.getAttribute("username");
 		if(username != null){
 			session.removeAttribute("");
 			out.print("<head><title>Loggging out...</title></head>");
