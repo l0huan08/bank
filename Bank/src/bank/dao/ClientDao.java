@@ -13,6 +13,11 @@ import java.util.List;
  * 2014.9.18
  */
 public class ClientDao {
+	/**
+	 * Default Client Password after reset
+	 */
+	private final String DEFAULT_RESET_CLIENT_PASSWORD = "1111";
+	
 	private DBConnector dbConnector = new DBConnector();
 	
 	/**
@@ -301,6 +306,53 @@ public class ClientDao {
 		
 	}
 
+	
+	/**
+	 * Reset Client's password into Default Password: "1111"
+	 * @param username
+	 * @return if reset success, return true
+	 */
+	public boolean resetClientPassword(String username) {
+		//update tbClient set pw=DEFAULT_PASSWORD
+		
+		if (!DaoUtility.isUsernameValid(username))
+			return false;
+		
+		Connection conn=null;
+		try{
+			conn = dbConnector.getConnection();
+			if (conn==null) //cannot connect to DB
+				return false;
+			
+			PreparedStatement st;
+			ResultSet rs;
+			String sql;
+			
+			sql = "update tbClient set pw=? where username=?";
+			
+			// check does this client's username exist?
+			st = conn.prepareStatement(sql);
+			st.setString(1, DEFAULT_RESET_CLIENT_PASSWORD);
+			st.setString(2, username);
+			int nRowUpdated = st.executeUpdate();
+			
+			return (nRowUpdated>0);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			try {
+				if (conn!=null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return false;
+	}
+	
+	
 	private Client getClientFromResultSet(ResultSet rs) throws SQLException {
 		int cid = rs.getInt("cid");
 		String fname = rs.getString("fname");
