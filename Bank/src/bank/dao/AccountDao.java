@@ -148,13 +148,17 @@ public class AccountDao {
 				return null;// not found account
 			}
 		} catch (Exception e){
-			
+			e.printStackTrace();
 		} finally {
-			
+			try {
+				if (conn!=null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 			
 		return null;
-		//TODO: need implements
 	}
 	
 	/**
