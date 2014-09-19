@@ -14,6 +14,5 @@
  		<input type="radio" id="accountType" value="2" name="accountType" />Saving
  		<p><input type="submit" value="Open" /></p>
  	</form>
- 	<a href="LogoutServlet">Sign off</a>
 </body>
 </html>

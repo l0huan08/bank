@@ -34,13 +34,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
  	<div id="accordion">
  		<h3>My Profile</h3>
- 		<div>
+ 		<div id="">
  			<a href="resetPassword.jsp" target="mainFrame">Reset password</a><p>
- 			<a href="updateUserInfo.jsp" target="mainFrame">View my profile</a>
+ 			<a href="clientInfo.jsp" target="mainFrame">View my profile</a>
  		</div>
  		<h3>My accounts</h3>
  		<div>
- 			<a href="findUser.jsp" target="mainFrame">Open new account</a>
+ 			<a href="openAccount.jsp" target="mainFrame">Open new account</a>
  		</div>
  		<h3>Deposit</h3>
  		<div>

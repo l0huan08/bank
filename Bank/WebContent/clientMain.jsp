@@ -4,7 +4,7 @@
 <html>
   <head>
   	
-    <title>管理员主页面</title>
+    <title>Welcome</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-store">
 	<meta http-equiv="expires" content="0">    
