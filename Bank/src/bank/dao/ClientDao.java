@@ -207,8 +207,8 @@ public class ClientDao {
 			st = conn.prepareStatement(
 					"update tbClient "
 					+ " set fname=?, mname=?, lname=? ,gender=?,birthday=?,tel=?,"
-					+ "add1=?,add2=?,zip=?,email=?,pw=? "
-					+ "where username=? ");
+					+ " add1=?,add2=?,zip=?,email=?,pw=? "
+					+ " where username=? ");
 			st.setString(1, newClient.getFirstName());
 			st.setString(2, newClient.getMiddleName());
 			st.setString(3, newClient.getLastName());
@@ -222,7 +222,7 @@ public class ClientDao {
 			st.setString(10, newClient.getEmail());
 			
 			st.setString(11, newClient.getPassword());
-			st.setString(12, newClient.getUsername());
+			st.setString(12, username);
 			
 			int nInsertedRow = st.executeUpdate(); //the number of rows inserted
 			return (nInsertedRow>0); //means a row inserted
