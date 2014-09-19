@@ -28,4 +28,17 @@ class DaoUtility {
 			return false;
 		return true;
 	}
+	
+	/**
+	 * Valid username
+	 * @param username
+	 * @return true if username is valid
+	 */
+	public static boolean isAccountNumberValid(String accountNumber) {
+		if (accountNumber==null)
+			return false;
+		if (accountNumber.trim().isEmpty())
+			return false;
+		return true;
+	}
 }
