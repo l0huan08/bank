@@ -52,7 +52,7 @@ public class AccountDao {
 			st = conn
 					.prepareStatement("select tbAccount.*, typename from tbAccount, tbClient, tbAccountType "
 							+ "    where tbAccount.cid=tbClient.cid "
-							+ "      and tbAccount.typeid=tbAccount.typeid "
+							+ "      and tbAccount.typeid=tbAccountType.typeid "
 							+ "      and tbClient.username= ?");
 			st.setString(1, username);
 			rs = st.executeQuery();
