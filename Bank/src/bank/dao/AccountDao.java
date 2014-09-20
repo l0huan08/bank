@@ -45,9 +45,9 @@ public class AccountDao {
 				return null;
 			
 			st = conn.prepareStatement(
-					"select tbAccount.*, trtname from tbAccount, tbClient, tbTransactionType "+ 
+					"select tbAccount.*, typename from tbAccount, tbClient, tbAccountType "+ 
 					"    where tbAccount.cid=tbClient.cid " +
-					"      and trtype=trtid " +
+					"      and tbAccount.typeid=tbAccount.typeid " +
 					"      and tbClient.username= ?" );
 			st.setString(1, username);
 			rs = st.executeQuery();
