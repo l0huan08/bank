@@ -43,6 +43,7 @@ public class OpenAccountServlet extends HttpServlet {
 		out.print("<head><title>Processing...</title></head>");
 		if(account != null){
 			out.print("<script>alert('Account opened successfully.');</script>");
+			out.print("<script>window.parent.frames[1].location.reload();</script>");
 		} else{
 			out.print("<script>alert('Account opened failed. Please call our customer service.');</script>");
 		}
