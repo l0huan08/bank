@@ -12,6 +12,7 @@
 <script>
 $(document).ready(function(){
 	var id = $('#id').val();
+	$('#another').hide();
 	$('#start').datepicker({
 	      changeMonth: true,
 	      changeYear: true,
@@ -28,7 +29,17 @@ $(document).ready(function(){
 	          $( "#start" ).datepicker( "option", "maxDate", selectedDate );
 	        }
 	 });
+	$('#another').click(function(){
+		$('#another').hide();
+		$('#view').show();
+		$('#statement').empty();
+		$('#start').val("");
+		$('#start').focus();
+		$('#end').val("");
+	});
 	$('#view').click(function(){
+		$('#another').show();
+		$('#view').hide();
 		if($('#start').length ==  0) {
 			alert("Please select a start date.");
 			$('#start').focus();
@@ -71,6 +82,7 @@ $(document).ready(function(){
 		From:<input type="text" id="start" name="start" /><p>
 		To:<input type="text" id="end" name="end" /><p>
 		<input type="button" id="view" value="View" />
+		<input type="button" id="another" value="View another statement" />
 	</form>
 	<h2>View your statement</h2>
 	<table id="statement">
