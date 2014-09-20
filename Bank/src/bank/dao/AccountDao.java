@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -57,7 +58,7 @@ public class AccountDao {
 				int aid = rs.getInt("aid");
 				int cid = rs.getInt("cid");
 				int typeid = rs.getInt("typeid");
-				String typeName = rs.getString("trtname");
+				String typeName = rs.getString("typename");
 				AccountType acType = new AccountType();
 				acType.setTypeId(typeid);
 				acType.setTypeName(typeName);
@@ -282,11 +283,92 @@ public class AccountDao {
 	}
 	
 	/**
-	 * 
+	 * Delete an account with all its related transactions
+	 * Only account with balance=0 can be deleted.
+	 * @param accountNumber
+	 * @return true if success delete this account
+	 */
+	public boolean deleteAccount(String accountNumber) {
+		// check whether this account has no money left or due ( balance=0 )
+		// only when balance =0 can delete
+		
+		if (!DaoUtility.isAccountNumberValid(accountNumber))
+			return false;
+
+		Connection conn = null;
+		try {
+			conn = dbConnector.getConnection();
+			if (conn == null) // cannot connect to DB
+				return false;
+
+			PreparedStatement pst;
+			String sql;
+			ResultSet rs;
+			
+			// Search is this account has balance !=0  ?
+			sql = "select * from tbAccount where "
+					+ "   acnumber= ? "
+					+ "   and balance <> 0";
+			
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, accountNumber);
+			
+			rs = pst.executeQuery();
+			// if exist non-emply account, then REFUSE to delete client
+			if (rs.next()) {
+				return false;
+			}
+			
+			// ---------------- Batch Transaction
+			int nRs=0;
+			conn.setAutoCommit(false); //begin Transaction
+			Savepoint savepnt = conn.setSavepoint();
+			try {
+				//remove(from table Transaction where username = 'userName');
+				sql = "delete from tbTransaction where aid = "
+						+ "(select aid from tbAccount where "
+						+ "   acnumber = ? )";
+				
+				pst =conn.prepareStatement(sql);
+				pst.setString(1, accountNumber);
+				pst.executeUpdate();
+			
+				//remove(from table Account where acnumber= 'acnumber');
+				sql = "delete from tbAccount where acnumber = ? ";
+				pst = conn.prepareStatement(sql);
+				pst.setString(1, accountNumber);
+				nRs = pst.executeUpdate(); //nRs: number of account row deleted
+				
+				conn.commit(); //commit and end Transaction
+			} catch (Exception ex) {
+				conn.rollback(savepnt);
+			} finally {
+				conn.setAutoCommit(true);
+			}
+			// ---------------- Execute batch
+			
+			return (nRs==1); // 1 account deleted.
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return false;
+	}
+	
+	/**
+	 * Set account activity
 	 * @param accountNumber
 	 * @param isactive
 	 */
-	public boolean setAccountActive(String accountNumber, boolean isactive) {
+	protected boolean setAccountActive(String accountNumber, boolean isactive) {
 		if (!DaoUtility.isAccountNumberValid(accountNumber))
 			return false;
 		
@@ -322,6 +404,7 @@ public class AccountDao {
 			
 		return false;
 	}
+	
 	
 	/**
 	 * Generate a new Account Number.
