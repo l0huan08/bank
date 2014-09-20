@@ -5,8 +5,80 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script>
+$(document).ready(function(){
+	var id = $('#id').val();
+	$('#start').datepicker({
+	      changeMonth: true,
+	      changeYear: true,
+	      dateFormat: 'yy-mm-dd',
+	      onClose: function( selectedDate ) {
+	          $( "#end" ).datepicker( "option", "minDate", selectedDate );
+	        }
+	 });
+	$('#end').datepicker({
+	      changeMonth: true,
+	      changeYear: true,
+	      dateFormat: 'yy-mm-dd',
+	      onClose: function( selectedDate ) {
+	          $( "#start" ).datepicker( "option", "maxDate", selectedDate );
+	        }
+	 });
+	$('#view').click(function(){
+		if($('#start').length ==  0) {
+			alert("Please select a start date.");
+			$('#start').focus();
+			return false;
+		}
+		if($('#end').length ==  0) {
+			alert("Please select an end date.");
+			$('#end').focus()
+			return false;
+		}
+		$.ajax({
+			type:"post",
+			url:"ViewStatementServlet?flag="+Math.random(),
+			data:{
+				"id":id,
+				"start":$('#start').val(),
+				"end":$('#end').val()
+			},
+			dataType:"json",
+			success:function(data){  
+				if(data){
+					if(data[0].amount == "null"){
+						$('#statement').append("<tr><td colspan=3>No transaction found.</td></tr>");
+					} else{
+						for(var i = 0;i < data.length;i++){
+							$('#statement').append("<tr><td>"+data[i].amount+"</td><td>"+data[i].type+"</td><td>"+data[i].description+"</td></tr>");
+						}
+					}
+				} 
+			}
+		});
+	});
+});
+</script>
 </head>
 <body>
-
+	<input type="hidden" id="id" value=<%=request.getParameter("id") %> />
+	<h3>Please select the period of your statement</h3><p>
+	<form id="ViewStatement" action="ViewStatementServlet">
+		From:<input type="text" id="start" name="start" /><p>
+		To:<input type="text" id="end" name="end" /><p>
+		<input type="button" id="view" value="View" />
+	</form>
+	<h2>View your statement</h2>
+	<table id="statement">
+		<tr>
+			<th>Amount</th>
+			<th>Type</th>
+			<th>Description</th>
+		</tr>
+	</table>
 </body>
 </html>

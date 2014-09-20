@@ -27,6 +27,9 @@
 					} 
 			}
 		});
+		$('#view').click(function(){
+			window.location.href = "viewStatement.jsp?id="+id; 
+		});
 	});
 </script>
 </head>
@@ -46,6 +49,7 @@
 		Account Status: <input type="text" id="accountStatus" disabled="disabled" />
 	</p>
 	<p>
+		<input type="button" id="view" value="View Statement"/>
 	</p>
 </body>
 </html>
