@@ -60,8 +60,8 @@ public class ClientInfo extends HttpServlet {
 		selectJSON.deleteCharAt(selectJSON.length() - 1);
       	selectJSON.append("]");
 		out.print(selectJSON);
-		//out.flush();
-		//out.close();
+		out.flush();
+		out.close();
 	}
 
 	/**

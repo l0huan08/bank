@@ -27,6 +27,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$( "#accordion" ).accordion({
 				heightStyle: "content"
 			});
+			var name = $('#name').val();
+			$.ajax({
+				type:"post",
+				url:"AccountInfo?flag="+Math.random(),
+				data:{"username":name},
+				dataType:"json",
+				success:function(data){  
+						if(data){
+							for(var i = 0;i < data.length;i++){
+								$('#account_list').append("<p><a id='account"+i+"'>"+data[i].accountName+"</a></p>");
+								$("#account"+i+"").attr('href',"accountDetail.jsp?id="+data[i].accountName+"");
+								$("#account"+i+"").attr('target',"mainFrame");
+							}
+						} 
+				}
+			});
 		});
 	</script>
   </head>
@@ -35,11 +51,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	<div id="accordion">
  		<h3>My Profile</h3>
  		<div id="">
- 			<a href="resetPassword.jsp" target="mainFrame">Reset password</a><p>
  			<a href="clientInfo.jsp" target="mainFrame">View my profile</a>
  		</div>
  		<h3>My accounts</h3>
- 		<div>
+ 		<div id="account_list">
+ 			<input type="hidden" id="name" value=<%=session.getAttribute("username") %> />
  			<a href="openAccount.jsp" target="mainFrame">Open new account</a>
  		</div>
  		<h3>Deposit</h3>

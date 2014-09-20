@@ -19,7 +19,7 @@
   <frameset rows="115,*" cols="*" frameborder="no" border="0" framespacing="0">
 	<frame src="clientTop.jsp" name="topFrame" scrolling="No" id="topFrame" title="topFrame"/>
   	<frameset cols="200,*" frameborder="no" border="0" framespacing="0">
-		<frame src="clientLeft.jsp" name="leftFrame" scrolling="No" noresize="noresize" id="leftFrame" title="leftFrame"/>
+		<frame src="clientLeft.jsp" name="leftFrame" scrolling="Yes" noresize="noresize" id="leftFrame" title="leftFrame"/>
 		<frame src="clientIndex.jsp" name="mainFrame" id="mainFrame" title="mainFrame"/>
   	</frameset>
   </frameset>

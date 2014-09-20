@@ -54,14 +54,63 @@ public class ClientInfoServlet extends HttpServlet {
 			String tel = request.getParameter("tel");
 			tel = tel.trim();
 			String add1 = request.getParameter("add1");
+			add1 = add1.trim();
 			String add2 = request.getParameter("add2");
 			if(add2 == null)
 				add2 = "";
 			String zip = request.getParameter("zip");
+			zip = zip.trim();
 			String email = request.getParameter("email");
+			email = email.trim();
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
+			password = password.trim();
 			String userName = (String)session.getAttribute("username");
+			if(userName == null){
+				out.print("<title>Error</title>");
+				out.print("<script>alert('You need to login first.');</script>");
+				response.addHeader("REFRESH", "1;URL=login.jsp");
+			}
+			if(fname.length() == 0){
+				out.print("<title>Error</title>");
+				out.print("<script>alert('Please enter your first name.');</script>");
+				response.addHeader("REFRESH", "1;URL=clientInfo.jsp");
+			}
+			if(lname.length() == 0){
+				out.print("<title>Error</title>");
+				out.print("<script>alert('Please enter your last name.');</script>");
+				response.addHeader("REFRESH", "1;URL=clientInfo.jsp");
+			}
+			if(dob.length() == 0){
+				out.print("<title>Error</title>");
+				out.print("<script>alert('Please enter your date of birth.');</script>");
+				response.addHeader("REFRESH", "1;URL=clientInfo.jsp");
+			}
+			if(tel.length() == 0){
+				out.print("<title>Error</title>");
+				out.print("<script>alert('Please enter your telephone number.');</script>");
+				response.addHeader("REFRESH", "1;URL=clientInfo.jsp");
+			}
+			if(add1.length() == 0){
+				out.print("<title>Error</title>");
+				out.print("<script>alert('Please enter your address.');</script>");
+				response.addHeader("REFRESH", "1;URL=clientInfo.jsp");
+			}
+			if(zip.length() == 0){
+				out.print("<title>Error</title>");
+				out.print("<script>alert('Please enter your zip code.');</script>");
+				response.addHeader("REFRESH", "1;URL=clientInfo.jsp");
+			}
+			if(email.length() == 0){
+				out.print("<title>Error</title>");
+				out.print("<script>alert('Please enter your email.');</script>");
+				response.addHeader("REFRESH", "1;URL=clientInfo.jsp");
+			}
+			if(password.length() == 0){
+				out.print("<title>Error</title>");
+				out.print("<script>alert('Please enter your password.');</script>");
+				response.addHeader("REFRESH", "1;URL=clientInfo.jsp");
+			}
 			client.setFirstName(fname);
 			client.setMiddleName(mname);
 			client.setLastName(lname);
@@ -76,7 +125,16 @@ public class ClientInfoServlet extends HttpServlet {
 			client.setEmail(email);
 			client.setUsername(username);
 			client.setPassword(password);
-			clientDao.updateClientProfile(userName, client);
+			boolean flag = clientDao.updateClientProfile(userName, client);
+			if(flag){
+				out.print("<title>Success</title>");
+				out.print("<script>alert('Update success.');</script>");
+				response.addHeader("REFRESH", "1;URL=clientInfo.jsp");
+			} else{
+				out.print("<title>Error</title>");
+				out.print("<script>alert('Update fail. Please contact our customer service.');</script>");
+				response.addHeader("REFRESH", "1;URL=clientInfo.jsp");
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
