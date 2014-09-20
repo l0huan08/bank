@@ -48,7 +48,7 @@ public class AccountDao {
 				return null;
 
 			st = conn
-					.prepareStatement("select tbAccount where acnumber=?");
+					.prepareStatement("select * from tbAccount where acnumber=?");
 			st.setString(1, accountNumber);
 			rs = st.executeQuery();
 
