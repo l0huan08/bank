@@ -41,27 +41,51 @@ public class ViewStatementServlet extends HttpServlet {
 			DecimalFormat format = new DecimalFormat("#.00");
 			String id = request.getParameter("id");
 			String start = request.getParameter("start");
+			start = start.trim();
 			String end = request.getParameter("end");
-			DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd"); 
-			Date from = new java.sql.Date(format1.parse(start).getTime());
-			Date to = new java.sql.Date(format1.parse(end).getTime());
-			TransactionDao transactionDao = new TransactionDao();
-			List<Transaction> list = transactionDao.getTransactionRecords(id, from, to);
-			StringBuffer selectJSON = new StringBuffer("[");
-			if(list == null){
-				selectJSON.append("{" + "\"" + "amount" + "\"" + ":" + "\"" + "").append("null").append("" + "\"" + "," + "\""+"type"+"\""+":"+"\""+"").append("null").append("" + "\"" + "," + "\""+"description"+"\""+":"+"\""+"").append("null").append(""+"\""+"},");
-			} else{
-				for(int i = 0;i < list.size();i++){
-					selectJSON.append("{" + "\"" + "amount" + "\"" + ":" + "\"" + "").append(format.format(list.get(i).getAmount())).append("" + "\"" + "," + "\""+"type"+"\""+":"+"\""+"").append(list.get(i).getTransactionType().getTypeName()).append("" + "\"" + "," + "\""+"description"+"\""+":"+"\""+"").append(list.get(i).getDescription()).append(""+"\""+"},");
-				}
+			end = end.trim();
+			if(start.length() == 0){
+				out.print("<head><title>Error</title></head>");
+				out.print("<script>alert('Please select a start date.');</script>");
+				response.addHeader("REFRESH", "0.1;URL=viewStatement.jsp");
 			}
-			selectJSON.deleteCharAt(selectJSON.length() - 1);
-		    selectJSON.append("]");
-			out.print(selectJSON);
+			if(end.length() == 0){
+				out.print("<head><title>Error</title></head>");
+				out.print("<script>alert('Please select an end date.');</script>");
+				response.addHeader("REFRESH", "0.1;URL=viewStatement.jsp");
+			}
+			if(start.length() != 0 && end.length() != 0) {
+				DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd"); 
+				Date from = new java.sql.Date(format1.parse(start).getTime());
+				Date to = new java.sql.Date(format1.parse(end).getTime());
+				TransactionDao transactionDao = new TransactionDao();
+				List<Transaction> list = transactionDao.getTransactionRecords(id, from, to);
+				StringBuffer selectJSON = new StringBuffer("[");
+				if(list == null){
+					selectJSON.append("{" + "\"" + "amount" + "\"" + ":" + "\"" + "").append("null").append("" + "\"" + "," + "\""+"type"+"\""+":"+"\""+"").append("null").append("" + "\"" + "," + "\""+"description"+"\""+":"+"\""+"").append("null").append(""+"\""+"},");
+				} else{
+					for(int i = 0;i < list.size();i++){
+						selectJSON.append("{" + "\"" + "amount" + "\"" + ":" + "\"" + "").append(format.format(list.get(i).getAmount())).append("" + "\"" + "," + "\""+"type"+"\""+":"+"\""+"").append(list.get(i).getTransactionType().getTypeName()).append("" + "\"" + "," + "\""+"description"+"\""+":"+"\""+"").append(list.get(i).getDescription()).append(""+"\""+"},");
+					}
+				}
+				selectJSON.deleteCharAt(selectJSON.length() - 1);
+			    selectJSON.append("]");
+				out.print(selectJSON);
+				out.flush();
+				out.close();
+			}
+		} catch(java.text.ParseException e){
+			PrintWriter out = response.getWriter();
+			out.print("<head><title>Error</title></head>");
+			out.print("<script>alert('Please enter a valid date. Format: yyyy-mm-dd');</script>");
+			response.addHeader("REFRESH", "0.1;URL=viewStatement.jsp");
 			out.flush();
 			out.close();
 		} catch(Exception e){
-			e.printStackTrace();
+			PrintWriter out = response.getWriter();
+			out.print("<script>parent.window.location='errorPages/500.jsp';</script>");
+			out.flush();
+			out.close();
 		}
 	}
 
