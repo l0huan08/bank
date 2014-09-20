@@ -48,7 +48,9 @@ public class AccountDao {
 				return null;
 
 			st = conn
-					.prepareStatement("select * from tbAccount where acnumber=?");
+					.prepareStatement("select tbAccount.*,typename from tbAccount,"
+							+ " tbAccountType "
+							+ " where acnumber=? and tbAccount.typeid=tbAccountType.typeid");
 			st.setString(1, accountNumber);
 			rs = st.executeQuery();
 
