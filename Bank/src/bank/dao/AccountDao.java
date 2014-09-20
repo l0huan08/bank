@@ -29,6 +29,49 @@ public class AccountDao {
 	private final int TRANSFER_OUT_TRANSACTION_TYPE_ID = 4;
 	
 	/**
+	 * Get account
+	 * @param accountNumber
+	 * @return the account corresponding to this accountNumber
+	 */
+	public Account getAccount(String accountNumber) {
+		if (!DaoUtility.isAccountNumberValid(accountNumber))
+			return null;
+		
+		Connection conn = null;
+
+		try {
+			PreparedStatement st;
+			ResultSet rs;
+
+			conn = dbConnector.getConnection();
+			if (conn == null)
+				return null;
+
+			st = conn
+					.prepareStatement("select tbAccount where acnumber=?");
+			st.setString(1, accountNumber);
+			rs = st.executeQuery();
+
+			if (rs.next()) {
+				Account account = getAccountFromRecordSet(rs);
+				return account;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return null;
+	}
+
+	
+	/**
 	 * Get all account of a client
 	 * 
 	 * @param username
@@ -59,20 +102,7 @@ public class AccountDao {
 
 			ArrayList<Account> lst = new ArrayList<Account>();
 			while (rs.next()) {
-				int aid = rs.getInt("aid");
-				int cid = rs.getInt("cid");
-				int typeid = rs.getInt("typeid");
-				String typeName = rs.getString("typename");
-				AccountType acType = new AccountType();
-				acType.setTypeId(typeid);
-				acType.setTypeName(typeName);
-
-				double balance = rs.getDouble("balance");
-				String acnumber = rs.getString("acnumber");
-				boolean isactive = rs.getBoolean("isactive");
-
-				Account account = new Account(aid, cid, acType, balance,
-						acnumber, isactive);
+				Account account = getAccountFromRecordSet(rs);
 				lst.add(account);
 			}
 
@@ -301,6 +331,9 @@ public class AccountDao {
 
 		// do transaction
 		Connection conn = dbConnector.getConnection();
+		if (conn==null)
+			return false;
+		
 		PreparedStatement st;
 		String sql;
 		ResultSet rs;
@@ -589,5 +622,24 @@ public class AccountDao {
 		// keep 4 digits
 		int acNumber = clientId * 1000 + (int) (Math.random() * 900);
 		return String.valueOf(acNumber);
+	}
+	
+
+	private Account getAccountFromRecordSet(ResultSet rs) throws SQLException {
+		int aid = rs.getInt("aid");
+		int cid = rs.getInt("cid");
+		int typeid = rs.getInt("typeid");
+		String typeName = rs.getString("typename");
+		AccountType acType = new AccountType();
+		acType.setTypeId(typeid);
+		acType.setTypeName(typeName);
+
+		double balance = rs.getDouble("balance");
+		String acnumber = rs.getString("acnumber");
+		boolean isactive = rs.getBoolean("isactive");
+
+		Account account = new Account(aid, cid, acType, balance,
+				acnumber, isactive);
+		return account;
 	}
 }
