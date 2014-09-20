@@ -21,7 +21,8 @@ INSERT INTO `bank`.`tbaccount` (`cid`, `typeid`, `acnumber`, `balance`) VALUES (
 -- transfer type
 INSERT INTO `bank`.`tbtransactiontype` (`trtid`, `trtname`) VALUES ('1', 'deposit');
 INSERT INTO `bank`.`tbtransactiontype` (`trtid`, `trtname`) VALUES ('2', 'withdraw');
-INSERT INTO `bank`.`tbtransactiontype` (`trtid`, `trtname`) VALUES ('3', 'transfer');
+INSERT INTO `bank`.`tbtransactiontype` (`trtid`, `trtname`) VALUES ('3', 'transferin');
+INSERT INTO `bank`.`tbtransactiontype` (`trtid`, `trtname`) VALUES ('4', 'transferout');
 
 -- transfer
 INSERT INTO `bank`.`tbtransaction` (`aid`, `trtype`, `amount`, `description`) VALUES ('2', '2', '30', 'withdraw 30 at ATM');
