@@ -266,7 +266,7 @@ public class AccountDao {
 			// acnumber='acnumber'
 			double newBalance = oldbalance + amount;
 			sql = String.format(
-					"update tbAccount set balance=%lf where acnumber='%s' ",
+					"update tbAccount set balance=%f where acnumber='%s' ",
 					newBalance, accountNumber);
 			st.addBatch(sql);
 
@@ -283,7 +283,7 @@ public class AccountDao {
 			sql = String.format(
 					"insert into tbTransaction(aid,trtype,amount,description) "
 							+ "      values( %d, " + "			%d, "
-							+ "			%lf, 'deposit %lf dollars on %s' ) ", aid,
+							+ "			%f, 'deposit %f dollars on %s' ) ", aid,
 					DEPOSIT_TRANSACTION_TYPE_ID, amount, amount, currentDate);
 
 			st.addBatch(sql);
@@ -322,10 +322,12 @@ public class AccountDao {
 	 *            Receiver of the money
 	 * @param amount
 	 *            How much money to transfer
+	 * @param memo
+	 * 			  Description
 	 * @return true if success
 	 */
 	public boolean makeTransfer(String fromAccountNumber,
-			String toAccountNumber, double amount) {
+			String toAccountNumber, double amount, String memo) {
 		if (DaoUtility.isAccountNumberValid(fromAccountNumber)
 				&& DaoUtility.isAccountNumberValid(toAccountNumber)) {
 		} else
@@ -421,10 +423,10 @@ public class AccountDao {
 				sql = String.format(
 						"insert into tbTransaction(aid,trtype,amount,description) "
 								+ "      values( %d, " + "			%d, "
-								+ "			%lf, 'transfer %lf dollars to %s on %s' ) ", 
+								+ "			%f, 'transfer %f dollars to %s on %s. MEMO: %s' ) ", 
 								fromAccountId,
 					TRANSFER_OUT_TRANSACTION_TYPE_ID, amount, amount,
-					toAccountNumber, currentDate);
+					toAccountNumber, currentDate,memo);
 				nRs = st.executeUpdate(sql);
 				if (nRs<=0)
 				{
@@ -435,10 +437,10 @@ public class AccountDao {
 				sql = String.format(
 						"insert into tbTransaction(aid,trtype,amount,description) "
 								+ "      values( %d, " + "			%d, "
-								+ "			%lf, 'transfer %lf dollars from %s on %s' ) ", 
+								+ "			%f, 'transfer %f dollars from %s on %s. MEMO: %s' ) ", 
 								toAccountId,
 					TRANSFER_IN_TRANSACTION_TYPE_ID, amount, amount,
-					fromAccountNumber, currentDate);
+					fromAccountNumber, currentDate,memo);
 				nRs = st.executeUpdate(sql);
 				if (nRs<=0)
 				{

@@ -94,7 +94,7 @@ CREATE  TABLE IF NOT EXISTS `bank`.`tbTransaction` (
   `trtime` TIMESTAMP NOT NULL ,
   `trtype` INT NOT NULL ,
   `amount` DECIMAL(20,2) NOT NULL ,
-  `description` VARCHAR(45) NULL ,
+  `description` VARCHAR(255) NULL ,
   PRIMARY KEY (`trid`) ,
   INDEX `fk_tbTransaction_tbAccount1_idx` (`aid` ASC) ,
   INDEX `fk_tbTransaction_tbTransactionType1_idx` (`trtype` ASC) ,
