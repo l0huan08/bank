@@ -51,7 +51,7 @@ public class MakeTransferServlet extends HttpServlet {
 					response.addHeader("REFRESH", "0.1;URL=makeTransfer.jsp");
 				} else{
 					double money = Double.parseDouble(amount);
-					boolean flag = accountDao.makeTransfer(id, recipient, money);
+					boolean flag = accountDao.makeTransfer(id, recipient, money, des);
 					if(flag){
 						out.print("<title>Success</title>");
 						out.print("<script>alert('Transfer success.');</script>");
