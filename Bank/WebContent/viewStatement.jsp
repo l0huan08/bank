@@ -45,6 +45,7 @@ $(document).ready(function(){
 		$('#end').attr('disabled', false);
 	});
 	$('#view').click(function(){
+		$('h2').text("Your statement from " + $('#start').val() + " to " +$('#end').val());
 		$('#another').show();
 		$('#show').show();
 		$('#view').hide();
@@ -107,7 +108,7 @@ $(document).ready(function(){
 		<input type="button" id="another" value="View another statement" />
 	</form>
 	<div id="show">
-		<h2>View your statement</h2>
+		<h2></h2>
 		<table id="statement" border="1">
 			<thead>
 				<tr align="center">
