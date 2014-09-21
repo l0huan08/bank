@@ -16,7 +16,21 @@
 </script>
 <script>
 	$().ready(	function() {
-
+		$('#username').blur(function(){
+			var username = $('#username').val();
+			$.ajax({
+				type:"post",
+				url:"checkUserServlet?d="+Math.random(),
+				data:{"name":$('#username').val()},
+				success:function(data){
+					if(data == "false"){
+						alert("The username is already exists. Please use another one.");
+						$('#username').val("");
+						$('#username').focus();
+					} 
+				}
+			});
+		});
 		$('#dob').datepicker({
             changeMonth : true,
             changeYear : true,
@@ -104,7 +118,7 @@
 		</div>
 
 		<div id="rulesInfo" align="center">All the money you save here
-			will be our banks.</div>
+			will be our bank's.</div>
 	</div>
 
 	<div id="clientProfile">
@@ -122,7 +136,7 @@
 			</p>
 			<p>
 				Gender:
-				<input type="radio" id="gender" name="gender" value="M" />Male
+				<input type="radio" id="gender" name="gender" value="M" checked="checked" />Male
 				<input type="radio" id="gender" name="gender" value="F" />Female
 				<label for="gender" class="error" style="display:none;">Please select your gender</label>
 			</p>
@@ -148,7 +162,7 @@
 				User name: <input type="text" id="username" name="username" />
 			</p>
 			<p>
-				Password: <input type="text" id="password" name="password" />
+				Password: <input type="password" id="password" name="password" />
 			</p>
             <p>
             <input type="checkbox" id="agree" name="agree"/>Accept Client Rules
