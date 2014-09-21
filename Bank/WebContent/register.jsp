@@ -17,7 +17,6 @@
 <script>
 	$().ready(	function() {
 		$('#username').blur(function(){
-			var username = $('#username').val();
 			$.ajax({
 				type:"post",
 				url:"checkUserServlet?d="+Math.random(),
