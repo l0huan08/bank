@@ -2,7 +2,6 @@ package bank.servlet.ajax;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,9 +35,9 @@ public class checkUserServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String username = request.getParameter("name");
 		ClientDao clientDao = new ClientDao();
-		List<Client> list = clientDao.searchClient(username);
+		Client client = clientDao.getClient(username);
 		StringBuffer selectJSON = new StringBuffer();
-		if(list == null){
+		if(client == null){
 			selectJSON.append("true");
 		} else{
 			selectJSON.append("false");
