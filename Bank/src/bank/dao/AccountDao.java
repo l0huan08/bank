@@ -243,7 +243,7 @@ public class AccountDao {
 			int aid = 0;
 			double oldbalance = 0;
 			sql = String.format(
-					"select * from tbAccount where acccountNumber='%s' ",
+					"select * from tbAccount where acnumber='%s' ",
 					accountNumber);
 
 			rs = st.executeQuery(sql);
