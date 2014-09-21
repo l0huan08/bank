@@ -46,7 +46,7 @@
 			});
 		});
 		$('#view').click(function(){
-			alert($("input[name='id']:checked").val());
+			window.location.href="editClientInfo.jsp?id="+$("input[name='id']:checked").val();
 		});
 	});
 </script>
