@@ -46,7 +46,7 @@
 </script>
 </head>
 <body>
-	<h2>Transfer from account number:<%=request.getParameter("id") %></h2>
+	<h2>Transfer money</h2>
 	<form id="TransferForm" action="MakeTransferServlet" method="post">
 		<input type="hidden" id="id" name="id" value=<%=request.getParameter("id") %> />
 		<p>Recipient:<input type="text" id="recipient" name="recipient" /></p>
