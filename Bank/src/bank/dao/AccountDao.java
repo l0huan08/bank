@@ -283,7 +283,7 @@ public class AccountDao {
 			sql = String.format(
 					"insert into tbTransaction(aid,trtype,amount,description) "
 							+ "      values( %d, " + "			%d, "
-							+ "			%f, 'deposit %f dollars on %s' ) ", aid,
+							+ "			%f, 'deposit %.2f dollars on %s' ) ", aid,
 					DEPOSIT_TRANSACTION_TYPE_ID, amount, amount, currentDate);
 
 			st.addBatch(sql);
@@ -349,15 +349,24 @@ public class AccountDao {
 			try {
 				int fromAccountId=0;
 				int toAccountId=0;
+				String fromName="SECRET USER";
+				String toName="SECRET USER";
+				String fname,mname,lname;
 				
-				st = conn.prepareStatement("select aid,balance,isactive from tbAccount "
-						+ " where acnumber= ? ");
+				st = conn.prepareStatement("select tbAccount.aid,balance,isactive,"
+						+ "fname,mname,lname from tbAccount, tbClient "
+						+ " where acnumber= ? and tbAccount.cid=tbClient.cid");
 				st.setString(1, fromAccountNumber);
 				rs = st.executeQuery();
 				if (rs.next()){
 					fromAccountId = rs.getInt("aid");
 					double balance = rs.getDouble("balance");
 					boolean isactive = rs.getBoolean("isactive");
+					fname = rs.getString("fname");
+					mname = rs.getString("mname");
+					lname = rs.getString("lname");
+					fromName = fname + " " + (mname==null?"":mname) + " " +lname;
+					
 					if (balance<amount || !isactive) { //not enough money or frozen
 						return false;
 					}
@@ -365,13 +374,19 @@ public class AccountDao {
 					return false;
 				}
 				
-				st = conn.prepareStatement("select aid,isactive from tbAccount "
-						+ " where acnumber= ? ");
+				st = conn.prepareStatement("select aid,isactive,"
+						+ " fname,mname,lname from tbAccount,tbClient "
+						+ " where acnumber= ? and tbAccount.cid=tbClient.cid");
 				st.setString(1, toAccountNumber);
 				rs = st.executeQuery();
 				if (rs.next()){
 					toAccountId = rs.getInt("aid");
 					boolean isactive = rs.getBoolean("isactive");
+					fname = rs.getString("fname");
+					mname = rs.getString("mname");
+					lname = rs.getString("lname");
+					toName = fname + " " + (mname==null?"":mname) + " " +lname;
+					
 					if (!isactive) { //frozen
 						return false;
 					}
@@ -423,10 +438,10 @@ public class AccountDao {
 				sql = String.format(
 						"insert into tbTransaction(aid,trtype,amount,description) "
 								+ "      values( %d, " + "			%d, "
-								+ "			%f, 'transfer %f dollars to %s on %s. MEMO: %s' ) ", 
+								+ "			%f, 'Transfer out %.2f dollars to %s(%s) on %s. MEMO: %s' ) ", 
 								fromAccountId,
 					TRANSFER_OUT_TRANSACTION_TYPE_ID, amount, amount,
-					toAccountNumber, currentDate,memo);
+					toAccountNumber, toName, currentDate,memo);
 				nRs = st.executeUpdate(sql);
 				if (nRs<=0)
 				{
@@ -436,11 +451,11 @@ public class AccountDao {
 				
 				sql = String.format(
 						"insert into tbTransaction(aid,trtype,amount,description) "
-								+ "      values( %d, " + "			%d, "
-								+ "			%f, 'transfer %f dollars from %s on %s. MEMO: %s' ) ", 
+								+ " values( %d, " + " %d, "
+								+ "	%f, 'Transfer in %.2f dollars from %s(%s) on %s. MEMO: %s' ) ", 
 								toAccountId,
 					TRANSFER_IN_TRANSACTION_TYPE_ID, amount, amount,
-					fromAccountNumber, currentDate,memo);
+					fromAccountNumber, fromName, currentDate,memo);
 				nRs = st.executeUpdate(sql);
 				if (nRs<=0)
 				{
