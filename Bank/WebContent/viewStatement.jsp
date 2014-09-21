@@ -33,15 +33,18 @@ $(document).ready(function(){
 	$('#another').click(function(){
 		$('#another').hide();
 		$('#view').show();
-		$('#statement').empty();
+		$('tbody').empty();
 		$('#start').val("");
-		$('#start').focus();
 		$('#end').val("");
 		$('#export').hide();
+		$('#start').attr('disabled', false);
+		$('#end').attr('disabled', false);
 	});
 	$('#view').click(function(){
 		$('#another').show();
 		$('#view').hide();
+		$('#start').attr('disabled', true);
+		$('#end').attr('disabled', true);
 		if($('#start').length ==  0) {
 			alert("Please select a start date.");
 			$('#start').focus();
@@ -65,9 +68,16 @@ $(document).ready(function(){
 				if(data){
 					if(data[0].amount == "null"){
 						$('#statement').append("<tr><td colspan=3>No transaction found.</td></tr>");
+						$('tbody tr').attr('align', 'center');
 					} else{
 						for(var i = 0;i < data.length;i++){
 							$('#statement').append("<tr><td>"+data[i].amount+"</td><td>"+data[i].type+"</td><td>"+data[i].description+"</td></tr>");
+							$('tbody tr').attr('align', 'center');
+							if(data[i].type == "withdraw" || data[i].type == "transferout"){
+								$('tbody tr td').attr('bgcolor', '#FF0000');
+							} else{
+								$('tbody tr td').attr('bgcolor', '#00FF00');
+							}
 							$('#export').show();
 						}
 					}
@@ -88,13 +98,16 @@ $(document).ready(function(){
 		<input type="button" id="another" value="View another statement" />
 	</form>
 	<h2>View your statement</h2>
-	<table id="statement">
-		<tr>
-			<th>Amount</th>
-			<th>Type</th>
-			<th>Description</th>
-		</tr>
+	<table id="statement" border="1">
+		<thead>
+			<tr align="center">
+				<th>Amount</th>
+				<th>Type</th>
+				<th>Description</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
 	</table>
-	<input type="button" id="export" value="Export to Excel" />
+	<p><input type="button" id="export" value="Export to Excel" /></p>
 </body>
 </html>
