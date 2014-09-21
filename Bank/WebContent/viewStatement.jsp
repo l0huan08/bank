@@ -14,6 +14,7 @@ $(document).ready(function(){
 	var id = $('#id').val();
 	$('#another').hide();
 	$('#export').hide();
+	$('#show').hide();
 	$('#start').datepicker({
 	      changeMonth: true,
 	      changeYear: true,
@@ -37,11 +38,13 @@ $(document).ready(function(){
 		$('#start').val("");
 		$('#end').val("");
 		$('#export').hide();
+		$('#show').hide();
 		$('#start').attr('disabled', false);
 		$('#end').attr('disabled', false);
 	});
 	$('#view').click(function(){
 		$('#another').show();
+		$('#show').show();
 		$('#view').hide();
 		$('#start').attr('disabled', true);
 		$('#end').attr('disabled', true);
@@ -96,18 +99,20 @@ $(document).ready(function(){
 		<input type="button" id="view" value="View" />
 		<input type="button" id="another" value="View another statement" />
 	</form>
-	<h2>View your statement</h2>
-	<table id="statement" border="1">
-		<thead>
-			<tr align="center">
-				<th>Time</th>
-				<th>Amount</th>
-				<th>Type</th>
-				<th>Description</th>
-			</tr>
-		</thead>
-		<tbody></tbody>
-	</table>
-	<p><input type="button" id="export" value="Export to Excel" /></p>
+	<div id="show">
+		<h2>View your statement</h2>
+		<table id="statement" border="1">
+			<thead>
+				<tr align="center">
+					<th>Time</th>
+					<th>Amount</th>
+					<th>Type</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+		<p><input type="button" id="export" value="Export to Excel" /></p>
+	</div>
 </body>
 </html>
