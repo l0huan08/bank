@@ -140,7 +140,7 @@
 				<label for="gender" class="error" style="display:none;">Please select your gender</label>
 			</p>
 			<p>
-				Date of birth: <input type="text" id="dob" name="dob" />
+				Date of birth: <input type="text" id="dob" name="dob" readonly="readonly" />
 			</p>
 			<p>
 				Telephone: <input type="text" id="tel" name="tel" />
