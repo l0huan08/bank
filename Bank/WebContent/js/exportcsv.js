@@ -137,13 +137,13 @@ function utf8to16(str) {
 }
 
 function exportCsv(tableToExport){                                                
-    var data = $(tableToExport).table2CSV({delivery:'value'})       
-    var base64data =  base64encode(utf16to8(data))//if not utf16to8,chinese char will error                     
-    var uri = 'data:application/csv;base64,' + base64data              
-    var downloadLink = document.createElement("a");                    
-    downloadLink.download = "mytabledata.csv"                         
-    downloadLink.href=uri;                                             
-    document.body.appendChild(downloadLink);                           
-    downloadLink.click();                                              
-    document.body.removeChild(downloadLink);                           
+    var data = $(tableToExport).table2CSV({delivery:'value'});
+    var base64data =  base64encode(utf16to8(data));//if not utf16to8,chinese char will error
+    var uri = 'data:application/csv;base64,' + base64data;
+    var downloadLink = document.createElement("a");
+    downloadLink.download = "mytabledata.csv";
+    downloadLink.href=uri;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
 }
