@@ -67,18 +67,17 @@ $(document).ready(function(){
 			success:function(data){  
 				if(data){
 					if(data[0].amount == "null"){
-						$('#statement').append("<tr><td colspan=3>No transaction found.</td></tr>");
-						$('tbody tr').attr('align', 'center');
+						$('#statement').append("<tr><td colspan=4>No transaction found.</td></tr>");
+						$('table tbody tr').attr('align', 'center');
 					} else{
 						for(var i = 0;i < data.length;i++){
-							$('#statement').append("<tr><td>"+data[i].amount+"</td><td>"+data[i].type+"</td><td>"+data[i].description+"</td></tr>");
-							$('tbody tr').attr('align', 'center');
-							if(data[i].type == "withdraw" || data[i].type == "transferout"){
-								$('tbody tr td').attr('bgcolor', '#FF0000');
-							} else{
-								$('tbody tr td').attr('bgcolor', '#00FF00');
-							}
+							$('#statement').append("<tr align='center'><td>"+data[i].time+"</td><td>"+data[i].amount+"</td><td id="+i+">"+data[i].type+"</td><td>"+data[i].description+"</td></tr>");
 							$('#export').show();
+							if($("#"+i+"").text() == "withdraw" || $("#"+i+"").text() == "transferout"){
+								$("#"+i+"").parent().attr('bgcolor','#FF0000');
+							} else{
+								$("#"+i+"").parent().attr('bgcolor','#00FF00');
+							}
 						}
 					}
 				} 
@@ -101,6 +100,7 @@ $(document).ready(function(){
 	<table id="statement" border="1">
 		<thead>
 			<tr align="center">
+				<th>Time</th>
 				<th>Amount</th>
 				<th>Type</th>
 				<th>Description</th>

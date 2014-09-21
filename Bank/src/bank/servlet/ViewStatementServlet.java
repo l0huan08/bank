@@ -65,7 +65,7 @@ public class ViewStatementServlet extends HttpServlet {
 					selectJSON.append("{" + "\"" + "amount" + "\"" + ":" + "\"" + "").append("null").append("" + "\"" + "," + "\""+"type"+"\""+":"+"\""+"").append("null").append("" + "\"" + "," + "\""+"description"+"\""+":"+"\""+"").append("null").append(""+"\""+"},");
 				} else{
 					for(int i = 0;i < list.size();i++){
-						selectJSON.append("{" + "\"" + "amount" + "\"" + ":" + "\"" + "").append(format.format(list.get(i).getAmount())).append("" + "\"" + "," + "\""+"type"+"\""+":"+"\""+"").append(list.get(i).getTransactionType().getTypeName()).append("" + "\"" + "," + "\""+"description"+"\""+":"+"\""+"").append(list.get(i).getDescription()).append(""+"\""+"},");
+						selectJSON.append("{" + "\"" + "amount" + "\"" + ":" + "\"" + "").append(format.format(list.get(i).getAmount())).append("" + "\"" + "," + "\""+"type"+"\""+":"+"\""+"").append(list.get(i).getTransactionType().getTypeName()).append("" + "\"" + "," + "\""+"description"+"\""+":"+"\""+"").append(list.get(i).getDescription()).append("" + "\"" + "," + "\""+"time"+"\""+":"+"\""+"").append(list.get(i).getTransactionTime()).append(""+"\""+"},");
 					}
 				}
 				selectJSON.deleteCharAt(selectJSON.length() - 1);
