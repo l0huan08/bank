@@ -35,6 +35,7 @@ Welcome to online bank!
 	&nbsp;&nbsp;&nbsp;
 	<input type="radio" name="status" value="admin" />Administrator
 	<P><input type="submit" value="Login" /></P>
+	<p><a href="register.jsp">New Customer?</a></p>
 </form> 
 </body>
 </html>

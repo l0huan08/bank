@@ -13,6 +13,7 @@
 $(document).ready(function(){
 	var id = $('#id').val();
 	$('#another').hide();
+	$('#export').hide();
 	$('#start').datepicker({
 	      changeMonth: true,
 	      changeYear: true,
@@ -36,6 +37,7 @@ $(document).ready(function(){
 		$('#start').val("");
 		$('#start').focus();
 		$('#end').val("");
+		$('#export').hide();
 	});
 	$('#view').click(function(){
 		$('#another').show();
@@ -66,6 +68,7 @@ $(document).ready(function(){
 					} else{
 						for(var i = 0;i < data.length;i++){
 							$('#statement').append("<tr><td>"+data[i].amount+"</td><td>"+data[i].type+"</td><td>"+data[i].description+"</td></tr>");
+							$('#export').show();
 						}
 					}
 				} 
@@ -92,5 +95,6 @@ $(document).ready(function(){
 			<th>Description</th>
 		</tr>
 	</table>
+	<input type="button" id="export" value="Export to Excel" />
 </body>
 </html>

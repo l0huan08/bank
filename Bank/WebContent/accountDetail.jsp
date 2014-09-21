@@ -30,6 +30,9 @@
 		$('#view').click(function(){
 			window.location.href = "viewStatement.jsp?id="+id; 
 		});
+		$('#transfer').click(function(){
+			window.location.href = "makeTransfer.jsp?id="+id; 
+		});
 	});
 </script>
 </head>
@@ -49,6 +52,7 @@
 		Account Status: <input type="text" id="accountStatus" disabled="disabled" />
 	</p>
 	<p>
+		<input type="button" id="transfer" value="Make transfer" />
 		<input type="button" id="view" value="View Statement"/>
 	</p>
 </body>
