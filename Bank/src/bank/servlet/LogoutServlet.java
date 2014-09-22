@@ -29,7 +29,7 @@ public class LogoutServlet extends HttpServlet {
 		String username = (String)session.getAttribute("username");
 		if(username != null){
 			session.removeAttribute("");
-			out.print("<head><title>Loggging out...</title></head>");
+			out.print("<head><title>Logging out...</title></head>");
 			out.print("<script>alert('You have been logged out.')</script>");
 			response.addHeader("REFRESH", "0.1;URL=login.jsp");
 		} else{

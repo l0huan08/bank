@@ -14,7 +14,7 @@
 	<p>
 	<div id="message" align="center">
 		We are sorry, but the page you are looking for is currently unavailable.<p>
-		<a href="index.jsp">Return to home page.</a>
+		<a href="index.html">Return to home page.</a>
 	</div>
 </body>
 </html>
