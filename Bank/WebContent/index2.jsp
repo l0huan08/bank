@@ -32,7 +32,7 @@
 <body>
 	<div id="blinkSubject">
 		<h1>闫老板大银行(Our Online Bank)</h1>
-		<img src="yutang/yutang.jpg" />
+		<img src="images/yutang.jpg" />
 		<h2>
 			<a href="login.jsp">点击进入</a>
 		</h2>
