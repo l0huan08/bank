@@ -42,7 +42,7 @@ public class findAccountServlet extends HttpServlet {
 			selectJSON .append("{"+"\""+"accountID"+"\""+":"+"\""+"").append("null").append(""+"\""+", "+"\""+"accountNumber"+"\""+":"+"\""+"").append("null").append(""+"\""+"},");
 		} else{
 			for(int i = 0;i < list.size();i++){
-				selectJSON .append("{"+"\""+"accountID"+"\""+":"+"\""+"").append(list.get(i).getAccountId()).append(""+"\""+", "+"\""+"accountNumber"+"\""+":"+"\""+"").append(list.get(i).getAccountNumber()).append(""+"\""+"},");
+				selectJSON .append("{"+"\""+"accountID"+"\""+":"+"\""+"").append(list.get(i).getAccountId()).append(""+"\""+", "+"\""+"accountNumber"+"\""+":"+"\""+"").append(list.get(i).getAccountNumber()).append(""+"\""+", "+"\""+"accountStatus"+"\""+":"+"\""+"").append(list.get(i).isActive()).append(""+"\""+"},");
 			}
 		}
 		selectJSON.deleteCharAt(selectJSON.length() - 1);

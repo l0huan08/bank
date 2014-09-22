@@ -45,7 +45,6 @@ public class findAccountsServlet extends HttpServlet {
 			String status = null;
 			DecimalFormat format = new DecimalFormat("#.00");
 			for(int i = 0;i < list.size();i++){
-				System.out.println(list.get(i).isActive());
 				if(list.get(i).isActive() == true){
 					status = "Active";
 				} else {

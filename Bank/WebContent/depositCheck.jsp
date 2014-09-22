@@ -19,7 +19,9 @@
 						$('#submit').attr('disabled', true);
 					} else{
 						for(var i = 0;i < data.length;i++){
-							$('#account').append("<option value='"+data[i].accountNumber+"'>"+data[i].accountNumber+"</option>");
+							if(data[i].accountStatus == "true"){
+								$('#account').append("<option value='"+data[i].accountNumber+"'>"+data[i].accountNumber+"</option>");
+							}
 						}
 					}
 				}
@@ -50,7 +52,7 @@
 					return false;
 				} else{
 					if(confirm("Are you sure you want to make this deposit?")){
-						return true;
+						//return true;
 					} else{
 						return false;
 					}
