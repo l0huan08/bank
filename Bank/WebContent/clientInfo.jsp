@@ -7,6 +7,7 @@
 <title>Insert title here</title>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.1/themes/hot-sneaks/jquery-ui.css">
     <link rel="stylesheet" href="css/website.css">
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 <script>
 	$(document).ready(function(){	
