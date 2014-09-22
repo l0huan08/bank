@@ -466,6 +466,7 @@ public class AccountDao {
 				return true;
 				
 			} catch (Exception ex) {
+				ex.printStackTrace();
 				conn.rollback(savepnt);
 			} finally {
 				conn.setAutoCommit(true);

@@ -374,8 +374,8 @@ public class ClientDao {
 			// Search is there any account of client with balance ?
 			st = conn.createStatement();
 			sql = "select tbAccount.* from tbAccount,tbClient where "
-					+ "   tbAcount.cid=tbClient.cid"
-					+ "   and tbClient.username='"+ username +"' )"
+					+ "   tbAccount.cid=tbClient.cid"
+					+ "   and tbClient.username='"+ username +"' "
 					+ "   and balance <> 0";
 			rs = st.executeQuery(sql);
 			// if exist non-emply account, then REFUSE to delete client
@@ -384,29 +384,37 @@ public class ClientDao {
 			}
 			
 			// ---------------- Batch Transaction 
+			conn.setAutoCommit(false);
+			Savepoint savepnt = conn.setSavepoint();
+			
+			try {
 			//remove(from table Transaction where username = 'userName');
 			sql = "delete from tbTransaction where aid IN "
 					+ "(select aid from tbAccount,tbClient where"
-					+ "   tbAcount.cid=tbClient.cid"
+					+ "   tbAccount.cid=tbClient.cid"
 					+ "   and tbClient.username='"+ username +"' )";
-			st.addBatch(sql);
+			st.executeUpdate(sql);
 			
 			//remove(from table Account where cid = 'cid');
 			sql = "delete from tbAccount where cid= "
 					+ "(select cid from tbClient where "
 					+ "   username='" + username +"' )";
-			st.addBatch(sql);
+			st.executeUpdate(sql);
 			
 			//remove(from table Client where username = 'userName');
 			sql = "delete from tbClient where "
 					+ "   username='" + username +"' ";
-			st.addBatch(sql);
+			int nRs = st.executeUpdate(sql);
 			
 			// ---------------- Execute batch
-			int[] nRs = st.executeBatch();
+			return (nRs>0); // 1 SQL statements executed.
 			
-			return (nRs.length == 3); // 3 SQL statements executed.
-			
+			} catch (Exception ex){
+				ex.printStackTrace();
+				conn.rollback(savepnt);
+			} finally {
+				conn.setAutoCommit(true);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
