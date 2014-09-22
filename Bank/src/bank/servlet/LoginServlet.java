@@ -56,6 +56,7 @@ public class LoginServlet extends HttpServlet {
 					if(client.loginClient(username, password)){
 						response.sendRedirect("clientMain.jsp");
 						session.setAttribute("username", username);
+						session.setAttribute("status", "client");
 					} else{
 						out.print("<head><title>Error</title></head>");
 						out.print("<script>alert('Wrong username or password.');</script>");
@@ -65,6 +66,7 @@ public class LoginServlet extends HttpServlet {
 					if(admin.loginAdmin(username, password)){
 						response.sendRedirect("adminMain.jsp");
 						session.setAttribute("username", username);
+						session.setAttribute("status", "admin");
 					} else{
 						out.print("<head><title>Error</title></head>");
 						out.print("<script>alert('Wrong username or password.');</script>");
