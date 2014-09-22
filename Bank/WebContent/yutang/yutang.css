@@ -1,0 +1,28 @@
+/**********************************
+
+Name: Yutang Styles
+
+***********************************/
+
+/******* Define fonts ***************/
+
+/********* Styles ***************/
+
+body {
+	font-family:Courier;
+}
+
+h1 {
+	color:green; 
+}
+
+h2 {
+    color:#E60000; 
+    font-size: 1.0em;
+}
+
+input {	border: 1px solid black; }
+input.checkbox { border: none }
+input:focus { border: 1px dotted black; }
+input.error { border: 1px dotted red; }
+form.cmxform .gray * { color: gray; }
