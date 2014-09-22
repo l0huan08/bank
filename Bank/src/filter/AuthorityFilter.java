@@ -48,7 +48,7 @@ public class AuthorityFilter  implements Filter{
 				chain.doFilter(servletRequest, serlvetResponse);
 			}
 		} else{
-			if(path.indexOf("adminMain.jsp") > -1 || path.indexOf("adminTop.jsp") > -1 || path.indexOf("adminLeft.jsp") > -1 || path.indexOf("adminIndex.jsp") > -1 || path.indexOf("clientInfo.jsp") > -1 || path.indexOf("adminClientInfo.jsp") > -1 || path.indexOf("editClientInfo.jsp") > -1){
+			if(path.indexOf("adminMain.jsp") > -1 || path.indexOf("adminTop.jsp") > -1 || path.indexOf("adminLeft.jsp") > -1 || path.indexOf("adminIndex.jsp") > -1 || path.indexOf("adminClientInfo.jsp") > -1 || path.indexOf("editClientInfo.jsp") > -1){
 				serlvetResponse.sendRedirect("clientMain.jsp");
 			} else{
 				chain.doFilter(servletRequest, serlvetResponse);
