@@ -84,6 +84,7 @@
 				success:function(data){  
 					if(data[0].result == "success"){
 						alert(name + " has been deleted.");
+						window.location.href = "adminClientInfo.jsp";
 					} else{
 						alert(name + " cannot be deleted at this time. Please try again later.");
 					}
