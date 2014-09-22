@@ -45,9 +45,9 @@
 					} else{
 						for(var i = 0;i < data.length;i++){
 							if(data[i].accountStatus == "Active"){
-								$('#activeAccounts').append("<tr><td><td><input type='radio' name='id' value='"+data[i].userName+"'></td></td><td>"+data[i].accountNumber+"</td><td>"+data[i].accountType+"</td><td>"+data[i].balance+"</td><td>"+data[i].accountStatus+"</td></tr>");
+								$('#activeAccounts').append("<tr><td><input type='radio' name='id1' value='"+data[i].accountNumber+"'></td><td>"+data[i].accountNumber+"</td><td>"+data[i].accountType+"</td><td>"+data[i].balance+"</td><td>"+data[i].accountStatus+"</td></tr>");
 							} else{
-								$('#frozenAccounts').append("<tr><td></td><td>"+data[i].accountNumber+"</td><td>"+data[i].accountType+"</td><td>"+data[i].balance+"</td><td>"+data[i].accountStatus+"</td></tr>");
+								$('#frozenAccounts').append("<tr><td><input type='radio' name='id2' value='"+data[i].accountNumber+"'></td><td>"+data[i].accountNumber+"</td><td>"+data[i].accountType+"</td><td>"+data[i].balance+"</td><td>"+data[i].accountStatus+"</td></tr>");
 							}
 						}
 					}
@@ -91,10 +91,45 @@
 			});
 		});
 		$('#frozeAccount').click(function(){
-			
+			if($("input[name='id1']:checked").size() == 0){
+				alert("Please select an account to froze.");
+			} else{
+				$.ajax({
+					type:"post",
+					url:"FrozeAccountServlet?flag="+Math.random(),
+					data:{"accountNumber":$("input[name='id1']:checked").val()},
+					dataType:"json",
+					success:function(data){  
+						if(data[0].result == "success"){
+							alert($("input[name='id1']:checked").val() + " has been frozen.");
+							window.location.href = "editClientInfo.jsp?id=" + name;
+							
+						} else{
+							alert($("input[name='id1']:checked").val() + " cannot be frozen at this time. Please try again later.");
+						}
+					}
+				});
+			}
 		});
 		$('#activeAccount').click(function(){
-			
+			if($("input[name='id2']:checked").size() == 0){
+				alert("Please select an account to active.");
+			} else{
+				$.ajax({
+					type:"post",
+					url:"activeAccountServlet?flag="+Math.random(),
+					data:{"accountNumber":$("input[name='id2']:checked").val()},
+					dataType:"json",
+					success:function(data){  
+						if(data[0].result == "success"){
+							alert($("input[name='id2']:checked").val() + " has been actived.");
+							window.location.href = "editClientInfo.jsp?id=" + name;
+						} else{
+							alert($("input[name='id2']:checked").val() + " cannot be actived at this time. Please try again later.");
+						}
+					}
+				});
+			}
 		});
 	});
 </script>
@@ -144,6 +179,7 @@
 		<table id="frozenAccounts" border="1">
 			<thead>
 				<tr>
+					<th></th>
 					<th>Account number</th>
 					<th>Account type</th>
 					<th>Balance</th>
