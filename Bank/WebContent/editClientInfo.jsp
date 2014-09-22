@@ -45,9 +45,9 @@
 					} else{
 						for(var i = 0;i < data.length;i++){
 							if(data[i].accountStatus == "Active"){
-								$('#activeAccounts').append("<tr><td>"+data[i].accountNumber+"</td><td>"+data[i].accountType+"</td><td>"+data[i].balance+"</td><td>"+data[i].accountStatus+"</td></tr>");
+								$('#activeAccounts').append("<tr><td><td><input type='radio' name='id' value='"+data[i].userName+"'></td></td><td>"+data[i].accountNumber+"</td><td>"+data[i].accountType+"</td><td>"+data[i].balance+"</td><td>"+data[i].accountStatus+"</td></tr>");
 							} else{
-								$('#frozenAccounts').append("<tr><td>"+data[i].accountNumber+"</td><td>"+data[i].accountType+"</td><td>"+data[i].balance+"</td><td>"+data[i].accountStatus+"</td></tr>");
+								$('#frozenAccounts').append("<tr><td></td><td>"+data[i].accountNumber+"</td><td>"+data[i].accountType+"</td><td>"+data[i].balance+"</td><td>"+data[i].accountStatus+"</td></tr>");
 							}
 						}
 					}
@@ -59,6 +59,42 @@
 					$('#frozen').show();
 				}
 			}
+		});
+		$('#reset').click(function(){
+			$.ajax({
+				type:"post",
+				url:"resetPasswordServlet?flag="+Math.random(),
+				data:{"username":name},
+				dataType:"json",
+				success:function(data){  
+					if(data[0].result == "success"){
+						alert("Password has been reseted successfully.");
+					} else{
+						alert("Reset password failed.");
+					}
+				}
+			});
+		});
+		$('#delete').click(function(){
+			$.ajax({
+				type:"post",
+				url:"DeleteUserServlet?flag="+Math.random(),
+				data:{"username":name},
+				dataType:"json",
+				success:function(data){  
+					if(data[0].result == "success"){
+						alert(name + " has been deleted.");
+					} else{
+						alert(name + " cannot be deleted at this time. Please try again later.");
+					}
+				}
+			});
+		});
+		$('#frozeAccount').click(function(){
+			
+		});
+		$('#activeAccount').click(function(){
+			
 		});
 	});
 </script>
@@ -91,6 +127,7 @@
 		<table id="activeAccounts" border="1">
 			<thead>
 				<tr>
+					<th></th>
 					<th>Account number</th>
 					<th>Account type</th>
 					<th>Balance</th>

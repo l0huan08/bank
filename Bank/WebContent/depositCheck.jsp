@@ -52,7 +52,7 @@
 					return false;
 				} else{
 					if(confirm("Are you sure you want to make this deposit?")){
-						//return true;
+						return true;
 					} else{
 						return false;
 					}
