@@ -28,7 +28,7 @@ public class LogoutServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String username = (String)session.getAttribute("username");
 		if(username != null){
-			session.removeAttribute("");
+			session.removeAttribute("username");
 			out.print("<head><title>Logging out...</title></head>");
 			out.print("<script>alert('You have been logged out.')</script>");
 			response.addHeader("REFRESH", "0.1;URL=login.jsp");
