@@ -5,8 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>闫老板大鱼塘</title>
-<link rel="stylesheet" href="yutang/yutang.css">
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.1/themes/hot-sneaks/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script language="JavaScript">
 	var now, hours, minutes, seconds, timeValue;
 	function showtime() {
