@@ -5,8 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-    <link rel="stylesheet" href="css/hot-sneaks/jquery-ui.css">
-    <script src="http://code.jquery.com/ui/1.11.1/themes/hot-sneaks/jquery-ui.css"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.1/themes/hot-sneaks/jquery-ui.css">
+    <link rel="stylesheet" href="css/website.css">
     <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 <script>
 	$(document).ready(function(){	

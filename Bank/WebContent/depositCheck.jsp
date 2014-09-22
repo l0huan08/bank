@@ -5,7 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<link rel="stylesheet" href="css/website.css">
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script>
 	$(document).ready(function(){
 		$.ajax({
