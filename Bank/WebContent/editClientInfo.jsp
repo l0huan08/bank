@@ -76,20 +76,22 @@
 			});
 		});
 		$('#delete').click(function(){
-			$.ajax({
-				type:"post",
-				url:"DeleteUserServlet?flag="+Math.random(),
-				data:{"username":name},
-				dataType:"json",
-				success:function(data){  
-					if(data[0].result == "success"){
-						alert(name + " has been deleted.");
-						window.location.href = "adminClientInfo.jsp";
-					} else{
-						alert(name + " cannot be deleted at this time. Please try again later.");
+			if(confirm("Are you sure you want to delete " + name + "?")){
+				$.ajax({
+					type:"post",
+					url:"DeleteUserServlet?flag="+Math.random(),
+					data:{"username":name},
+					dataType:"json",
+					success:function(data){  
+						if(data[0].result == "success"){
+							alert(name + " has been deleted.");
+							window.location.href = "adminClientInfo.jsp";
+						} else{
+							alert(name + " cannot be deleted at this time. Please try again later.");
+						}
 					}
-				}
-			});
+				});
+			}
 		});
 		$('#frozeAccount').click(function(){
 			if($("input[name='id1']:checked").size() == 0){
@@ -136,40 +138,44 @@
 			if($("input[name='id1']:checked").size() == 0){
 				alert("Please select an account to active.");
 			} else{
-				$.ajax({
-					type:"post",
-					url:"DeleteAccountServlet?flag="+Math.random(),
-					data:{"accountNumber":$("input[name='id1']:checked").val()},
-					dataType:"json",
-					success:function(data){  
-						if(data[0].result == "success"){
-							alert($("input[name='id1']:checked").val() + " has been deleted.");
-							window.location.href = "editClientInfo.jsp?id=" + name;
-						} else{
-							alert($("input[name='id1']:checked").val() + " cannot be deleted at this time.It is either because of " +$("input[name='id1']:checked").val()+"'s balance is not 0, or technical issues. Please try again later.");
+				if(confirm("Are you sure you want to delete " + $("input[name='id1']:checked").val() + "?")){
+					$.ajax({
+						type:"post",
+						url:"DeleteAccountServlet?flag="+Math.random(),
+						data:{"accountNumber":$("input[name='id1']:checked").val()},
+						dataType:"json",
+						success:function(data){  
+							if(data[0].result == "success"){
+								alert($("input[name='id1']:checked").val() + " has been deleted.");
+								window.location.href = "editClientInfo.jsp?id=" + name;
+							} else{
+								alert($("input[name='id1']:checked").val() + " cannot be deleted at this time.It is either because of " +$("input[name='id1']:checked").val()+"'s balance is not 0, or technical issues. Please try again later.");
+							}
 						}
-					}
-				});
+					});
+				}
 			}
 		});
 		$('#delete2').click(function(){
 			if($("input[name='id2']:checked").size() == 0){
 				alert("Please select an account to active.");
 			} else{
-				$.ajax({
-					type:"post",
-					url:"DeleteAccountServlet?flag="+Math.random(),
-					data:{"accountNumber":$("input[name='id2']:checked").val()},
-					dataType:"json",
-					success:function(data){  
-						if(data[0].result == "success"){
-							alert($("input[name='id2']:checked").val() + " has been deleted.");
-							window.location.href = "editClientInfo.jsp?id=" + name;
-						} else{
-							alert($("input[name='id2']:checked").val() + " cannot be deleted at this time.It is either because of " +$("input[name='id2']:checked").val()+"'s balance is not 0, or technical issues. Please try again later.");
+				if(confirm("Are you sure you want to delete " + $("input[name='id2']:checked").val() + "?")){
+					$.ajax({
+						type:"post",
+						url:"DeleteAccountServlet?flag="+Math.random(),
+						data:{"accountNumber":$("input[name='id2']:checked").val()},
+						dataType:"json",
+						success:function(data){  
+							if(data[0].result == "success"){
+								alert($("input[name='id2']:checked").val() + " has been deleted.");
+								window.location.href = "editClientInfo.jsp?id=" + name;
+							} else{
+								alert($("input[name='id2']:checked").val() + " cannot be deleted at this time.It is either because of " +$("input[name='id2']:checked").val()+"'s balance is not 0, or technical issues. Please try again later.");
+							}
 						}
-					}
-				});
+					});
+				}
 			}
 		});
 	});
