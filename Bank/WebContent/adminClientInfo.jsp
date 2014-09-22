@@ -20,7 +20,7 @@
 					window.location.href="adminClientInfo.jsp";
 				} else{
 					for(var i = 0;i < data.length;i++){
-						$('table tbody').append("<tr><td><input type='radio' name='id' value='"+data[i].clientID+"'></td><td>"+data[i].clientID+"</td><td>"+data[i].userName+"</td><td>"+data[i].firstName+"</td><td>"+data[i].lastName+"</td></tr>");
+						$('table tbody').append("<tr><td><input type='radio' name='id' value='"+data[i].userName+"'></td><td>"+data[i].clientID+"</td><td>"+data[i].userName+"</td><td>"+data[i].firstName+"</td><td>"+data[i].lastName+"</td></tr>");
 					}
 				}
 			}
@@ -38,15 +38,20 @@
 						window.location.href="adminClientInfo.jsp";
 					} else{
 						for(var i = 0;i < data.length;i++){
-							$('table tbody').append("<tr><td><input type='radio' name='id' value='"+data[i].clientID+"'></td><td>"+data[i].clientID+"</td><td>"+data[i].userName+"</td><td>"+data[i].firstName+"</td><td>"+data[i].lastName+"</td></tr>");
+							$('table tbody').append("<tr><td><input type='radio' name='id' value='"+data[i].userName+"'></td><td>"+data[i].clientID+"</td><td>"+data[i].userName+"</td><td>"+data[i].firstName+"</td><td>"+data[i].lastName+"</td></tr>");
 						}
 						$('#username').val("");
 					}
 				}
 			});
 		});
+		$('table tbody tr:nth-child(1)').find("td").eq(0).children().attr('bgcolor','#FF0000');
 		$('#view').click(function(){
-			window.location.href="editClientInfo.jsp?id="+$("input[name='id']:checked").val();
+			if($("input[name='id']:checked").size() == 0){
+				alert("Please select a client.");
+			} else{
+				window.location.href="editClientInfo.jsp?id="+$("input[name='id']:checked").val();
+			}
 		});
 	});
 </script>

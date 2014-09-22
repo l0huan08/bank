@@ -24,6 +24,10 @@
 							$('#balance').val(data[0].balance);
 						}
 						$('#accountStatus').val(data[0].accountStatus);
+						if(data[0].accountStatus != "Active"){
+							$('#transfer').attr('disabled',true);
+							$('#view').attr('disabled',true);
+						}
 					} 
 			}
 		});
