@@ -136,14 +136,55 @@ function utf8to16(str) {
     return out;
 }
 
-function exportCsv(tableToExport){                                                
+function createCsv(tableToExport) {
+	 var data = $(tableToExport).table2CSV({delivery:'value'});
+	 return data;
+}
+
+// detect browser
+function getBrowser() {
+    var Sys = {};
+    var ua = navigator.userAgent.toLowerCase();
+    var s;
+    (s = ua.match(/rv:([\d.]+)\) like gecko/)) ? Sys.ie = s[1] :
+    (s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] :
+    (s = ua.match(/firefox\/([\d.]+)/)) ? Sys.firefox = s[1] :
+    (s = ua.match(/chrome\/([\d.]+)/)) ? Sys.chrome = s[1] :
+    (s = ua.match(/opera.([\d.]+)/)) ? Sys.opera = s[1] :
+    (s = ua.match(/version\/([\d.]+).*safari/)) ? Sys.safari = s[1] : 0;
+    
+    return Sys;
+}
+
+
+// work for chrome, firefox
+function exportCsv1(tableToExport){                                                
     var data = $(tableToExport).table2CSV({delivery:'value'});
     var base64data =  base64encode(utf16to8(data));//if not utf16to8,chinese char will error
-    var uri = 'data:application/csv;base64,' + base64data;
+    var uri = 'data:text/plain;base64,' + base64data;
     var downloadLink = document.createElement("a");
     downloadLink.download = "mytabledata.csv";
     downloadLink.href=uri;
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
+}
+
+// work for IE
+function exportCsv2(tableToExport){                                                
+	var data = createCsv(tableToExport);
+	myWindow=window.open('','_blank','left=200,top=200,width=200,height=100,resizable=yes');
+	myWindow.document.write(data);
+	myWindow.document.execCommand('Saveas',true,'mytabledata.csv');
+	myWindow.close();
+}
+
+// for all browser
+function exportCsv(tableToExport) {
+	var browser = getBrowser();
+	if (browser.ie) {
+		exportCsv2(tableToExport);
+	} else {
+		exportCsv1(tableToExport);	
+	}  
 }

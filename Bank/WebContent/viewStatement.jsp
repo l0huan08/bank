@@ -12,6 +12,9 @@
 <script src="js/exportcsv.js"></script>
 
 <script>
+
+
+
 $(document).ready(function(){
 	var id = $('#id').val();
 	$('#another').hide();
@@ -92,7 +95,7 @@ $(document).ready(function(){
 	});
 	
 	$('#export').click( function() {
-		   exportCsv('#statement');
+		exportCsv('#statement');
 	});
 	
 });
