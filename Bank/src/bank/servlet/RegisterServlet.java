@@ -78,6 +78,7 @@ public class RegisterServlet extends HttpServlet {
 				out.print("<title>Success</title>");
 				out.print("<script>alert('Register success. Welcome to our bank.');</script>");
 				session.setAttribute("username", username);
+				session.setAttribute("status", "client");
 				response.addHeader("REFRESH", "0.1;URL=clientMain.jsp");
 			} else{
 				out.print("<title>Error</title>");

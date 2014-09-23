@@ -43,6 +43,10 @@ public class LoginFilter implements Filter {
 			chain.doFilter(servletRequest, serlvetResponse);
 			return;
 		}
+		if(path.indexOf("/register.jsp") > -1){
+			chain.doFilter(servletRequest, serlvetResponse);
+			return;
+		}
 		
 		//If logged in
 		if(username == null || "".equals(username)){

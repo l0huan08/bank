@@ -40,6 +40,10 @@ public class AuthorityFilter  implements Filter{
 			chain.doFilter(servletRequest, serlvetResponse);
 			return;
 		}
+		if(path.indexOf("/register.jsp") > -1){
+			chain.doFilter(servletRequest, serlvetResponse);
+			return;
+		}
 		
 		if(status == "admin"){
 			if(path.indexOf("clientMain.jsp") > -1 || path.indexOf("clientTop.jsp") > -1 || path.indexOf("clientleft.jsp") > -1 || path.indexOf("clientIndex.jsp") > -1 || path.indexOf("clientInfo.jsp") > -1 || path.indexOf("openAccount.jsp") > -1 || path.indexOf("accountDetail.jsp") > -1 || path.indexOf("depositCheck.jsp") > -1 || path.indexOf("viewStatement.jsp") > -1){
