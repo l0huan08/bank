@@ -32,7 +32,7 @@ public class LogoutServlet extends HttpServlet {
 			session.removeAttribute("status");
 			out.print("<head><title>Logging out...</title></head>");
 			out.print("<script>alert('You have been logged out.')</script>");
-			response.addHeader("REFRESH", "0.1;URL=index.html");
+			response.addHeader("REFRESH", "0.1;URL=login.jsp");
 		} else{
 			response.addHeader("REFRESH", "0.1;URL=login.jsp");
 		}
