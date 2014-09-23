@@ -1,14 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-   <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.1/themes/hot-sneaks/jquery-ui.css">
-   <link rel="stylesheet" href="css/website.css">
-   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script>
+
+  <meta charset="UTF-8">
+
+  <title>Login</title>
+	
+    <link rel="stylesheet" href="css/login.css" type="text/css" />
+    <script src="js/prefixfree.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script>
 	$(document).ready(function(){
 		$('#LoginForm').submit(function(){
 			var username = $.trim($('#username').val());
@@ -25,19 +27,32 @@
 			}
 		});
 	});
-</script>
+	</script>
 </head>
+
 <body>
-Welcome to online bank!
-<form id="LoginForm" action="LoginServlet" method="post">
-	<p>Username: <input type="text" id="username" name="username"/></p>
-	<p>Password: <input type="password" id="password" name="password"/></p>
-	<p>Login as:</p>
-	<input type="radio" name="status" value="client" checked="checked" />Client
-	&nbsp;&nbsp;&nbsp;
-	<input type="radio" name="status" value="admin" />Administrator
-	<P><input type="submit" value="Login" /></P>
-	<p><a href="register.jsp">New Customer?</a></p>
-</form> 
+
+  <div class="body"></div>
+		<div class="grad"></div>
+		<div class="header">
+			<div>Welcome<span><br> to our Bank</br></span></div>
+		</div>
+		<br>
+		<div class="login">
+			<form id="LoginForm" action="LoginServlet" method="post">
+				<input type="text" placeholder="username" id="username" name="username"><br>
+				<input type="password" placeholder="password" id="password" name="password"><br>
+				<input type="radio" name="status" value="client" checked="checked" />Client
+				<input type="radio" name="status" value="admin" />Administrator<br>
+				<input type="submit" value="Login">
+			</form>
+			<p>
+			<a href="register.jsp">New Customer?</a>
+		</div>
+		
+
+  <script src='http://codepen.io/assets/libs/fullpage/jquery.js'></script>
+
 </body>
+
 </html>
