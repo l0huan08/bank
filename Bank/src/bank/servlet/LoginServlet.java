@@ -40,37 +40,51 @@ public class LoginServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String status = request.getParameter("status");
-		username = username.trim();
-		password = password.trim();
-		if(username.length() == 0){
+		if(username == null){
 			out.print("<head><title>Error</title></head>");
-			out.print("Please enter username.");
+			out.print("Please enter username.<p>");
 			response.addHeader("REFRESH", "2;URL=login.jsp");
 		} else{
-			if(password.length() == 0){
+			username = username.trim();
+		}
+		if(password == null){
+			out.print("<head><title>Error</title></head>");
+			out.print("Please enter password.");
+			response.addHeader("REFRESH", "2;URL=login.jsp");
+		} else{
+			password = password.trim();
+		}
+		if(username != null && password != null){
+			if(username.length() == 0){
 				out.print("<head><title>Error</title></head>");
-				out.print("Please enter password.");
+				out.print("Please enter username.");
 				response.addHeader("REFRESH", "2;URL=login.jsp");
 			} else{
-				if(status.equals("client")){
-					if(client.loginClient(username, password)){
-						response.sendRedirect("clientMain.jsp");
-						session.setAttribute("username", username);
-						session.setAttribute("status", "client");
-					} else{
-						out.print("<head><title>Error</title></head>");
-						out.print("<script>alert('Wrong username or password.');</script>");
-						response.addHeader("REFRESH", "0.1;URL=login.jsp");
-					}
-				} else if(status.equals("admin")){
-					if(admin.loginAdmin(username, password)){
-						response.sendRedirect("adminMain.jsp");
-						session.setAttribute("username", username);
-						session.setAttribute("status", "admin");
-					} else{
-						out.print("<head><title>Error</title></head>");
-						out.print("<script>alert('Wrong username or password.');</script>");
-						response.addHeader("REFRESH", "0.1;URL=login.jsp");
+				if(password.length() == 0){
+					out.print("<head><title>Error</title></head>");
+					out.print("Please enter password.");
+					response.addHeader("REFRESH", "2;URL=login.jsp");
+				} else{
+					if(status.equals("client")){
+						if(client.loginClient(username, password)){
+							response.sendRedirect("clientMain.jsp");
+							session.setAttribute("username", username);
+							session.setAttribute("status", "client");
+						} else{
+							out.print("<head><title>Error</title></head>");
+							out.print("<script>alert('Wrong username or password.');</script>");
+							response.addHeader("REFRESH", "0.1;URL=login.jsp");
+						}
+					} else if(status.equals("admin")){
+						if(admin.loginAdmin(username, password)){
+							response.sendRedirect("adminMain.jsp");
+							session.setAttribute("username", username);
+							session.setAttribute("status", "admin");
+						} else{
+							out.print("<head><title>Error</title></head>");
+							out.print("<script>alert('Wrong username or password.');</script>");
+							response.addHeader("REFRESH", "0.1;URL=login.jsp");
+						}
 					}
 				}
 			}
