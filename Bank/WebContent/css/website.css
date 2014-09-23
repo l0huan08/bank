@@ -10,6 +10,7 @@ Name: Yutang Styles
 
 body {
 	font-family:Courier;
+	background-color:#B3EF95;
 }
 
 h1 {
@@ -26,3 +27,15 @@ input.checkbox { border: none }
 input:focus { border: 1px dotted black; }
 input.error { border: 1px dotted red; }
 form.cmxform .gray * { color: gray; }
+
+
+/* button   
+---------------------------------------------- */  
+input[type="button"] {
+    /* orange */
+    background-color: #00E68A;      
+}
+
+input[type="submit"] {
+    background-color:#8AE65C;      
+}
