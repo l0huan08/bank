@@ -84,9 +84,9 @@ $(document).ready(function(){
 							$('#statement').append("<tr align='center'><td>"+data[i].time+"</td><td>"+data[i].amount+"</td><td id="+i+">"+data[i].type+"</td><td>"+data[i].description+"</td></tr>");
 							$('#export').show();
 							if($("#"+i+"").text() == "withdraw" || $("#"+i+"").text() == "transferout"){
-								$("#"+i+"").parent().attr('bgcolor','#FF0000');
+								$("#"+i+"").parent().attr('bgcolor','#FF4545');
 							} else{
-								$("#"+i+"").parent().attr('bgcolor','#00FF00');
+								$("#"+i+"").parent().attr('bgcolor','#33CC33');
 							}
 						}
 					}
