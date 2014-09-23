@@ -34,12 +34,8 @@ public class LoginFilter implements Filter {
 		//Get username from session
 		String username = (String)session.getAttribute("username");
 		
-		//No need to filter login page and index page
+		//No need to filter login page and register page
 		if(path.indexOf("/login.jsp") > -1){
-			chain.doFilter(servletRequest, serlvetResponse);
-			return;
-		}
-		if(path.indexOf("/index.html") > -1){
 			chain.doFilter(servletRequest, serlvetResponse);
 			return;
 		}

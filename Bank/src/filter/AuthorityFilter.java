@@ -36,10 +36,6 @@ public class AuthorityFilter  implements Filter{
 			chain.doFilter(servletRequest, serlvetResponse);
 			return;
 		}
-		if(path.indexOf("/index.html") > -1){
-			chain.doFilter(servletRequest, serlvetResponse);
-			return;
-		}
 		if(path.indexOf("/register.jsp") > -1){
 			chain.doFilter(servletRequest, serlvetResponse);
 			return;
