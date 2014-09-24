@@ -70,6 +70,7 @@
 				success:function(data){  
 					if(data[0].result == "success"){
 						alert("Password has been reseted successfully.");
+						window.location.href = "editClientInfo.jsp?id=" + name;
 					} else{
 						alert("Reset password failed.");
 					}
@@ -107,7 +108,6 @@
 						if(data[0].result == "success"){
 							alert($("input[name='id1']:checked").val() + " has been frozen.");
 							window.location.href = "editClientInfo.jsp?id=" + name;
-							
 						} else{
 							alert($("input[name='id1']:checked").val() + " cannot be frozen at this time. Please try again later.");
 						}
