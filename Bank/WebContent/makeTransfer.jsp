@@ -32,17 +32,24 @@
 				$('#recipient').focus();
 				return false;
 			} else{
-				if($('#select').val() != null){
-					$('#recipient').val($('#select').val());
-					if($.trim($('#amount').val()) == ""){
-						alert("Please enter the transfer amount.");
-						$('#amount').focus();
-						return false;
-					} else{
-						if(confirm("Are you sure you want to make this transfer?")){
-							return true;
-						} else{
+				if($('#id').val() == $('#recipient').val()) {
+					alert('You cannot transfer money within the same account.');
+					$('#recipient').val("");
+					$('#recipient').focus();
+					return false;
+				} else{
+					if($('#select').val() != null){
+						$('#recipient').val($('#select').val());
+						if($.trim($('#amount').val()) == ""){
+							alert("Please enter the transfer amount.");
+							$('#amount').focus();
 							return false;
+						} else{
+							if(confirm("Are you sure you want to make this transfer?")){
+								return true;
+							} else{
+								return false;
+							}
 						}
 					}
 				}
@@ -53,6 +60,7 @@
 			$('#recipient').hide();
 			$('#between').hide();
 			$('#cancel').show();
+			$('#amount').val("");
 			$.ajax({
 				type:"post",
 				url:"findAccountServlet?flag="+Math.random(),
@@ -76,6 +84,8 @@
 			$('#recipient').show();
 			$('#between').show();
 			$('#cancel').hide();
+			$('#recipient').val("");
+			$('#amount').val("");
 			$("input[type='submit']").attr('disabled', false);
 		});
 	});
