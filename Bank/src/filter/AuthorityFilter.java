@@ -43,13 +43,13 @@ public class AuthorityFilter  implements Filter{
 		
 		if(status == "admin"){
 			if(path.indexOf("clientMain.jsp") > -1 || path.indexOf("clientTop.jsp") > -1 || path.indexOf("clientleft.jsp") > -1 || path.indexOf("clientIndex.jsp") > -1 || path.indexOf("clientInfo.jsp") > -1 || path.indexOf("openAccount.jsp") > -1 || path.indexOf("accountDetail.jsp") > -1 || path.indexOf("depositCheck.jsp") > -1 || path.indexOf("viewStatement.jsp") > -1){
-				serlvetResponse.sendRedirect("adminMain.jsp");
+				serlvetResponse.sendRedirect("error.jsp");
 			} else{
 				chain.doFilter(servletRequest, serlvetResponse);
 			}
 		} else{
 			if(path.indexOf("adminMain.jsp") > -1 || path.indexOf("adminTop.jsp") > -1 || path.indexOf("adminLeft.jsp") > -1 || path.indexOf("adminIndex.jsp") > -1 || path.indexOf("adminClientInfo.jsp") > -1 || path.indexOf("editClientInfo.jsp") > -1){
-				serlvetResponse.sendRedirect("clientMain.jsp");
+				serlvetResponse.sendRedirect("error.jsp");
 			} else{
 				chain.doFilter(servletRequest, serlvetResponse);
 			}

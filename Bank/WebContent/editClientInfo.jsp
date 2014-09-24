@@ -137,7 +137,7 @@
 		});
 		$('#delete1').click(function(){
 			if($("input[name='id1']:checked").size() == 0){
-				alert("Please select an account to active.");
+				alert("Please select an account to delete.");
 			} else{
 				if(confirm("Are you sure you want to delete " + $("input[name='id1']:checked").val() + "?")){
 					$.ajax({
@@ -159,7 +159,7 @@
 		});
 		$('#delete2').click(function(){
 			if($("input[name='id2']:checked").size() == 0){
-				alert("Please select an account to active.");
+				alert("Please select an account to delete.");
 			} else{
 				if(confirm("Are you sure you want to delete " + $("input[name='id2']:checked").val() + "?")){
 					$.ajax({
