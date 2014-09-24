@@ -35,7 +35,7 @@
   <div class="body"></div>
 		<div class="grad"></div>
 		<div class="header">
-			<div>Welcome<span><br> to our Bank</br></span></div>
+			<div>Welcome<span><br> to our Bank</span></div>
 		</div>
 		<br>
 		<div class="login">
