@@ -1,8 +1,8 @@
-Marlabs Project 2 - Online Bank
+MLB Project 2 - Online Bank
 bank
 ====
 
-marlabs online bank
+online bank
 
 Programmers:
 Run Yan, Li Huang,
